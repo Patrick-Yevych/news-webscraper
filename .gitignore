@@ -1,2 +1,3 @@
 .vscode/
 __pycache__
+./web-scraper/__pycache__
