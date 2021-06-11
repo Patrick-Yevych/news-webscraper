@@ -1,3 +1,5 @@
+from Scraper import Scraper
+
 from typing import List
 from bs4 import BeautifulSoup
 import requests, re, time
@@ -8,9 +10,7 @@ GOOGLE_LINK_PATTERN = r"^https?:\/\/.*\.google\..*$"
 LINK_HEAD_PATTERN = r"(\/url\?q=)(https?:\/\/.*)"
 GOOGLE_DATE_PATTERN = r"^\d+ (seconds?|minutes?|hours?|days?|months?|years?) ago$"
 
-HEADERS = {'User-Agent': 'Mozilla/5.0'}
-
-class GoogleScraper:
+class GoogleScraper(Scraper):
 
     per_page = 0
     max_results = 0
@@ -23,7 +23,7 @@ class GoogleScraper:
     
 
     def get_news_objs(self, page: int = 0) -> BeautifulSoup:
-        req = requests.get('https://www.google.com/search?q='+self.query+'&source=lnms&tbm=nws&start='+str(page), allow_redirects=False, headers=HEADERS)
+        req = requests.get('https://www.google.com/search?q='+self.query+'&source=lnms&tbm=nws&start='+str(page), allow_redirects=False, headers=Scraper.HEADERS)
         return BeautifulSoup(req.text, 'html.parser')
 
 
@@ -125,6 +125,3 @@ class GoogleScraper:
         for i in range(0, min(len(srcs), len(hdlns), len(dates), len(urls))):
             res.append([srcs[i], hdlns[i], dates[i], urls[2*i]])
         return res
-
-scraper = GoogleScraper('bitcoin', 20, 10)
-print (scraper.build_table())
