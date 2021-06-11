@@ -3,6 +3,7 @@ from Scraper import Scraper
 from typing import List
 from bs4 import BeautifulSoup
 import requests, re, time
+import pandas as pd
 
 STRS_BLACKLIST = ('×', 'Search tools', 'Recent', 'Sorted by relevance', 'SW_C_X', 'Sign in', 'Next >')
 GOOGLE_LINK_PATTERN = r"^https?:\/\/.*\.google\..*$"
@@ -114,8 +115,8 @@ class GoogleScraper(Scraper):
             res.append(srcheads[i])
         return res
 
-    def build_table(self) -> List[str]:
-        res = []
+    def build_table(self) -> pd.DataFrame:
+        lst = []
         
         hdlns = self.get_headlines()
         srcs = self.get_sources()
@@ -123,5 +124,8 @@ class GoogleScraper(Scraper):
         urls = self.get_urls()
         
         for i in range(0, min(len(srcs), len(hdlns), len(dates), len(urls))):
-            res.append([srcs[i], hdlns[i], dates[i], urls[2*i]])
+            lst.append([srcs[i], hdlns[i], dates[i], urls[2*i]])
+
+        res = pd.DataFrame(lst, columns=Scraper.COLUMNS)
+
         return res
