@@ -6,8 +6,8 @@
         {
             "query": "bitcoin",
             "site": "Google",
-            "max_results": 10,
-            "per_page": 1
+            "max_pages": 30,
+            "page_step": 1
         }
     ]
 }

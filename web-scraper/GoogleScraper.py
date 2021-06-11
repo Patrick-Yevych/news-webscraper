@@ -13,14 +13,14 @@ GOOGLE_DATE_PATTERN = r"^\d+ (seconds?|minutes?|hours?|days?|months?|years?) ago
 
 class GoogleScraper(Scraper):
 
-    per_page = 0
-    max_results = 0
+    page_step = 0
+    max_pages = 0
     query = ""
 
-    def __init__(self, query: str, max_results: int = 1000, per_page: int = 10) -> None:
+    def __init__(self, query: str, max_pages: int = 1000, page_step: int = 10) -> None:
         self.query = query
-        self.per_page = per_page
-        self.max_results = min(max_results, 1000)
+        self.page_step = page_step
+        self.max_pages = min(max_pages, 1000)
     
 
     def get_news_objs(self, page: int = 0) -> BeautifulSoup:
@@ -56,14 +56,14 @@ class GoogleScraper(Scraper):
     def get_rel_dates(self, news_objs: BeautifulSoup) -> List[str]:
         res = []
         for span in self.get_spans(news_objs):
-            if re.match(GOOGLE_DATE_PATTERN, span) != None and span:
+            if re.match(GOOGLE_DATE_PATTERN, span) != None:
                 res.append(span)
         return res
 
 
     def get_urls(self) -> List[str]:
         res = []
-        for i in range(0, self.max_results, self.per_page):
+        for i in range(0, self.max_pages, self.page_step):
             links = self.get_href(self.get_news_objs(i))
             for link in links:
                     res.append(link)
@@ -72,7 +72,7 @@ class GoogleScraper(Scraper):
 
     def get_dates(self) -> List[str]:
         res = []
-        for i in range(0, self.max_results, self.per_page):
+        for i in range(0, self.max_pages, self.page_step):
             for rd in self.get_rel_dates(self.get_news_objs(i)):
                 text = rd.split(" ")
                 c = 0
@@ -98,7 +98,7 @@ class GoogleScraper(Scraper):
 
     def get_srcheads(self) -> List[str]: 
         res = []
-        for i in range(0, self.max_results, self.per_page): 
+        for i in range(0, self.max_pages, self.page_step): 
             for t in self.get_strs(self.get_news_objs(i)):
                 if t not in STRS_BLACKLIST:
                     res.append(t)
