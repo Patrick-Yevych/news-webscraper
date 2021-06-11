@@ -1,7 +1,9 @@
 FROM python:latest
 RUN pip install beautifulsoup4
 RUN pip install pandas
+RUN pip install requests
 CMD ["python3", "ScraperApp.py"]
 COPY Scraper.py /Scraper.py
 COPY GoogleScraper.py /GoogleScraper.py 
 COPY ScraperApp.py /ScraperApp.py
+COPY config.json /config.json

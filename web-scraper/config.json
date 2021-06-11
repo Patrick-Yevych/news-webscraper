@@ -1,0 +1,13 @@
+{
+    "db_con": [
+
+    ],
+    "scrapers": [
+        {
+            "query": "bitcoin",
+            "site": "Google",
+            "max_results": 10,
+            "per_page": 1
+        }
+    ]
+}
