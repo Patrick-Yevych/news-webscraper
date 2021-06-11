@@ -1,6 +1,6 @@
 from typing import List
 from bs4 import BeautifulSoup
-import requests, re
+import requests, re, time
 
 PER_PAGE = 10 # default: 10
 MAX_RES = 20 # default: 1000
@@ -52,7 +52,7 @@ def get_urls(query: str) -> List[str]:
     return res
 
 
-def get_dates(query: str) -> List[str]:
+def get_rel_dates(query: str) -> List[str]:
     res = []
     for i in range(0, MAX_RES, PER_PAGE):
         spans = get_spans(get_news_objs(query, i))
@@ -61,6 +61,26 @@ def get_dates(query: str) -> List[str]:
                 res.append(span)
     return res
 
+def get_dates(rel_dates: List[str]) -> List[str]:
+    res = []
+    for rd in rel_dates:
+        text = rd.split(" ")
+        c = 0
+        if text[1] == "second" or text[1] == "seconds":
+            c = 1
+        elif text[1] == "minute" or text[1] == "minutes":
+            c = 60
+        elif text[1] == "hour" or text[1] == "hours":
+            c = 60*60
+        elif text[1] == "day" or text[1] == "days":
+            c = 24*60*60
+        elif text[1] == "month" or text[1] == "months":
+            c = 30*24*60*60
+        elif text[1] == "year" or text[1] == "years":
+            c = 12*30*24*60*60
+        date = (time.ctime(time.time()-c*int(text[0]))).split(" ")
+        res.append(date[0]+" "+date[1]+" "+date[2]+" "+date[4])
+    return res
 
 def get_headlines(query: str) -> List[str]: 
     res = []
@@ -76,7 +96,7 @@ def build_table(query: str) -> List[str]:
     res = []
     
     hdlnl = get_headlines(query)
-    dates = get_dates(query)
+    dates = get_dates(get_rel_dates(query))
     urls = get_urls(query)
     
     for i in range(0, min(len(hdlnl)-1, len(dates))):
@@ -86,4 +106,8 @@ def build_table(query: str) -> List[str]:
 
 print(build_table('bitcoin'))
 
+# convert relative dates to absolute dates
 # scrap multiple search engines: bing, duckduck go.
+
+
+#names: tickerchatter, speakticker, tickerspeak
