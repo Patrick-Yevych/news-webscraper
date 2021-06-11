@@ -89,6 +89,9 @@ class GoogleScraper(Scraper):
                 elif text[1] == "year" or text[1] == "years":
                     c = 12*30*24*60*60
                 date = (time.ctime(time.time()-c*int(text[0]))).split(" ")
+                for d in date:
+                    if d == '':
+                        date.remove(d)
                 res.append(date[0]+" "+date[1]+" "+date[2]+" "+date[4])
         return res
 
