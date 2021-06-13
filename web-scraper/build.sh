@@ -1,2 +1,2 @@
 #!/bin/bash
-docker image build -t ticker-scraper .
+docker image build -t web-scraper .

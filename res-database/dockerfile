@@ -1,0 +1,3 @@
+FROM mysql/mysql-server:latest
+COPY setup.sh /setup.sh
+COPY schema.ddl /schema.ddl
