@@ -5,8 +5,6 @@ import pandas as pd
 
 def res_insert(scraper, results: pd.DataFrame, cursor) -> None:
     for row in results.values.tolist():
-        #stmt = "INSERT INTO Results(headline, source, url, published_date, search_query, engine) VALUES (" \
-                        #+row[0]+", "+row[1]+", "+row[2]+", "+row[3]+", "+scraper['query']+", "+scraper['engine']+" );"
         stmt = "INSERT INTO Results(headline, source, url, published_date, search_query, engine) VALUES ( %s, %s, %s, %s, %s, %s);" 
         date = datetime.datetime.strptime(row[3], '%a %b %d %Y')
         cursor.execute(stmt, (row[0], row[1], row[2], date, scraper['query'], scraper['engine']))
@@ -22,8 +20,12 @@ if __name__ == '__main__':
     cs = db_con.cursor(prepared=True)
 
     for scraper in cfg['scrapers']:
-        #scraper_insert(scraper, cs)
+        #scraper_insert(scraper, cs) < - need seperate db_con for Scrapers table
         if scraper['engine'].lower() == 'google':
             s = GoogleScraper(scraper['query'], scraper['max_pages'], scraper['page_step'])
             t = s.build_table()
             res_insert(scraper, t, cs)
+    
+    db_con.commit()
+    cs.close()
+    db_con.close()
