@@ -1,21 +1,15 @@
 {
     "db_con": {
-        "host": "",
-        "user": "",
-        "password": "",
-        "database": ""
+        "host": "127.0.0.1",
+        "user": "resdb",
+        "password": "password",
+        "database": "res_database"
     },
     "scrapers": [
         {
             "query": "ethereum",
             "engine": "Google",
-            "max_pages": 10,
-            "page_step": 1
-        },
-        {
-            "query": "xrp",
-            "site": "Google",
-            "max_pages": 10,
+            "max_pages": 1,
             "page_step": 1
         }
     ]

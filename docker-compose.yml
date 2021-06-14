@@ -1,0 +1,20 @@
+version: '1'
+services:
+
+    mysql:
+        container_name: res-database
+        restart: always
+        image: res-database:latest
+        environment: 
+            MYSQL_ROOT_PASSWORD: 'toor'
+            MYSQL_USER: 'resdb'
+            MYSQL_PASS: 'password'
+        volumes:
+            - "./res-database/config/my.conf:/etc/mysql/conf.d/config-file.cnf"
+            - "./res-database/data:/var/lib/mysql:rw"
+        ports:
+            - "3306:3306"
+        
+    scraperapp:
+        container_name: web-scraper
+        image: web-scraper:latest
