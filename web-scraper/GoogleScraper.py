@@ -127,6 +127,6 @@ class GoogleScraper(Scraper):
         urls = self.get_urls()
         
         for i in range(0, min(len(srcs), len(hdlns), len(dates), len(urls))):
-            lst.append([srcs[i], hdlns[i], dates[i], urls[2*i]])
+            lst.append([hdlns[i], srcs[i], urls[2*i], dates[i]])
 
         return pd.DataFrame(lst, columns=Scraper.COLUMNS)

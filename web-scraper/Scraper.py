@@ -5,7 +5,7 @@ import pandas as pd
 
 class Scraper(ABC):
     HEADERS = {'User-Agent': 'Mozilla/5.0'}
-    COLUMNS = ['Source', 'Headline', 'Date', 'URL']
+    COLUMNS = ['Headline', 'Source', 'URL', 'Date']
 
     @abstractmethod
     def get_sources(self) -> List[str]: 
