@@ -1,5 +1,5 @@
-import mysql.connector, sys
-sys.path.append('../')
+import mysql.connector
+#sys.path.append('../')
 from GoogleScraper import GoogleScraper
 from DatabaseConnection import DatabaseConnection
 
@@ -7,7 +7,7 @@ USE_JSON = False
 
 if __name__ == '__main__':
 
-    db = DatabaseConnection("../config.json")
+    db = DatabaseConnection("./config.json")
 
     for scraper in (db.scraper_selectall(), db.cfg['scrapers'])[USE_JSON]:
         print (scraper)

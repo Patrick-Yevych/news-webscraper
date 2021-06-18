@@ -1,0 +1,16 @@
+{
+    "db_con": {
+        "host": "res-database",
+        "user": "resdb",
+        "password": "password",
+        "database": "res_database"
+    },
+    "scrapers": [
+        {
+            "search_query": "bitcoin",
+            "engine": "google",
+            "max_pages": 1,
+            "page_step": 1
+        }
+    ]
+}
