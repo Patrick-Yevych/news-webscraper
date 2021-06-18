@@ -11,12 +11,9 @@ if __name__ == '__main__':
 
     for scraper in (db.scraper_selectall(), db.cfg['scrapers'])[USE_JSON]:
         print (scraper)
-        try:
-            if scraper['engine'].lower() == 'google':
-                s = GoogleScraper(scraper['search_query'], scraper['max_pages'], scraper['page_step'])
-                t = s.build_table()
-                db.res_insert(scraper, t)
-        except mysql.connector.errors.InterfaceError as e:
-            print(e)
+        if scraper['engine'].lower() == 'google':
+            s = GoogleScraper(scraper['search_query'], scraper['max_pages'], scraper['page_step'])
+            t = s.build_table()
+            db.res_insert(scraper, t)
 
     db.destroy()

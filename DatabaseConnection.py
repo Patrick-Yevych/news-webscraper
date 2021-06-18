@@ -15,13 +15,13 @@ class DatabaseConnection():
 
     def res_insert(self, scraper: dict, results: pd.DataFrame) -> None:
         for row in results.values.tolist():
-            STMT = "INSERT INTO Results(headline, source, url, published_date, search_query, engine) VALUES (%s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE headline=%s, source=%s;" 
+            STMT = "INSERT INTO Results(headline, source, url, published_date, search_query, engine) VALUES (%s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE url=%s, published_date=%s, search_query=%s, engine=%s;" 
             date = datetime.datetime.strptime(row[3], '%a %b %d %Y')
-            self.cs.execute(STMT, (row[0], row[1], row[2], date, scraper['search_query'], scraper['engine'], row[0], row[1]))
+            self.cs.execute(STMT, (row[0], row[1], row[2], date, scraper['search_query'], scraper['engine'], row[2], date, scraper['search_query'], scraper['engine']))
 
     def scraper_insert(self, scraper: dict) -> None:
-        STMT = "INSERT INTO Scrapers(search_query, engine, max_pages, page_step) VALUES (%s, %s, %s, %s) ON DUPLICATE KEY UPDATE search_query=%s, engine=%s;"
-        self.cs.execute(STMT, (scraper['search_query'], scraper['engine'], scraper['max_pages'], scraper['page_step'], scraper['search_query'], scraper['engine']))
+        STMT = "INSERT INTO Scrapers(search_query, engine, max_pages, page_step) VALUES (%s, %s, %s, %s) ON DUPLICATE KEY UPDATE max_pages=%s, page_step=%s;"
+        self.cs.execute(STMT, (scraper['search_query'], scraper['engine'], scraper['max_pages'], scraper['page_step'], scraper['max_pages'], scraper['page_step']))
 
     def res_selectall(self) -> list:
         res = []

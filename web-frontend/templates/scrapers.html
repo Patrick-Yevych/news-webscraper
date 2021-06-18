@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    font-family: "Courier New", "Times New Roman";
+}
+th, td {
+
+    border-bottom: 1px solid #ddd;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+</style>
+</head>
+<body>
+
+    <h2><a href="results">Results</a> | <a href="scrapers">Scrapers</a></h2>
+
+    <table style="width:100%">
+        <thead>
+        <tr>
+            <th>search_query</th>
+            <th>engine</th>
+            <th>max_pages</th>
+            <th>page_step</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in data %}
+        <tr>
+            <td>{{item['search_query']}}</td>
+            <td>{{item['engine']}}</td>
+            <td>{{item['max_pages']}}</td>
+            <td>{{item['page_step']}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+
+</html>
