@@ -7,8 +7,8 @@
     },
     "scrapers": [
         {
-            "query": "ethereum",
-            "engine": "Google",
+            "search_query": "bitcoin",
+            "engine": "google",
             "max_pages": 1,
             "page_step": 1
         }

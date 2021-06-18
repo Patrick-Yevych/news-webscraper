@@ -124,9 +124,9 @@ class GoogleScraper(Scraper):
         hdlns = self.get_headlines()
         srcs = self.get_sources()
         dates = self.get_dates()
-        urls = self.get_urls()
+        urls = self.get_urls()[::2]
         
         for i in range(0, min(len(srcs), len(hdlns), len(dates), len(urls))):
-            lst.append([hdlns[i], srcs[i], urls[2*i], dates[i]])
+            lst.append([hdlns[i], srcs[i], urls[i], dates[i]])
 
         return pd.DataFrame(lst, columns=Scraper.COLUMNS)

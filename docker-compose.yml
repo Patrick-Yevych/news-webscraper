@@ -18,3 +18,9 @@ services:
     scraperapp:
         container_name: web-scraper
         image: web-scraper:latest
+
+    frontend:
+        container_name: web-frontend
+        image: web-frontend:latest
+        ports:
+            - "5000:5000"
