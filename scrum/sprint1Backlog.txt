@@ -23,10 +23,10 @@ ISSUE: GUI for adding, editing, and deleting scrapers. GUI for activating scrape
 ----------
 ID: US1.21
 NAME: GUI for filtering scrapers and results  
-OWNER: 
-STATUS: InProgress
+OWNER: Patrick Yevych
+STATUS: Completed
 PRIORITY: 2
-ESTIMATE: 1 hours ACTUAL:
+ESTIMATE: 1 hours ACTUAL: 5 minutes
 ISSUE: Dropdown for engine under create scraper.
 ----------
 
