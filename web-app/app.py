@@ -1,5 +1,5 @@
 from werkzeug import datastructures
-import mysql.connector, json
+import mysql.connector, json, math
 #sys.path.append('../')
 from flask import Flask, render_template, request
 from DatabaseConnection import DatabaseConnection
@@ -36,11 +36,13 @@ def get_scrapers():
             db.scraper_delete(query, engine)
 
         elif request.values.get("action_type") == "create_scraper":
-            max_pages = request.values.get("max_pages")
-            page_step = request.values.get("page_step")
-            print("Creating Scraper ("+query+", "+engine+")")
-            db.scraper_insert({"search_query": query, "engine": engine, "max_pages": max_pages, "page_step": page_step})
-        
+            max_pages = float(request.values.get("max_pages"))
+            page_step = float(request.values.get("page_step"))
+            if (max_pages > 0 and page_step > 0 
+                and max_pages % math.floor(max_pages) == 0 and page_step % math.floor(page_step) == 0):
+                print("Creating Scraper ("+query+", "+engine+")")
+                db.scraper_insert({"search_query": query, "engine": engine, "max_pages": max_pages, "page_step": page_step})
+            
     data = db.scraper_selectall()
     db.destroy()
     return render_template('scrapers.html', data=data)

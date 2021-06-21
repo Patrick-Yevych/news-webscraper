@@ -24,7 +24,7 @@ class GoogleScraper(Scraper):
     
 
     def get_news_objs(self, page: int = 0) -> BeautifulSoup:
-        req = requests.get('https://www.google.com/search?q='+self.query+'&source=lnms&tbm=nws&start='+str(page), allow_redirects=False, headers=Scraper.HEADERS)
+        req = requests.get('https://www.google.com/search?q='+self.query.replace(" ", "+")+'&source=lnms&tbm=nws&start='+str(page), allow_redirects=False, headers=Scraper.HEADERS)
         return BeautifulSoup(req.text, 'html.parser')
 
 

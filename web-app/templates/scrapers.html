@@ -18,7 +18,7 @@
     .inline {
         display: inline;
     }
-    .link-button, .open-button {
+    .link-button {
         background: none;
         border: none;
         color: blue;
@@ -38,7 +38,7 @@
 
     <h2><a href="results">Results</a> | <a href="scrapers">Scrapers</a></h2>
 
-    <button class="open-button" onclick="new_scraper_open()">create</button>
+    <button class="link-button" onclick="new_scraper_open()">new</button>
     <br><br>
     <div class="form-popup" id="new_scraper_form">
         <form method="POST" action="scrapers" class="form-container">
