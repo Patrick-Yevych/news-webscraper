@@ -4,9 +4,9 @@ Sprint 1: 6/21/2021 - 7/5/2021
 ID: US1.1
 NAME: merge ./web-scraper and ./web-frontend 
 OWNER: Patrick Yevych
-STATUS: InProgress
+STATUS: Completed
 PRIORITY: 1
-ESTIMATE: 1 hour ACTUAL:
+ESTIMATE: 1 hour ACTUAL: 10 minutes
 ISSUE: web-scraper and webapp backend should exist in the same container
 ----------
 
