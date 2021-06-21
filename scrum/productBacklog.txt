@@ -1,35 +1,5 @@
 ----------
-ID: US1.1
-NAME: merge ./web-scraper and ./web-frontend 
-OWNER: 
-STATUS: NotStarted
-PRIORITY: 1
-ESTIMATE: 1 hour ACTUAL:
-ISSUE: web-scraper and webapp backend should exist in the same container
-----------
-
-----------
-ID: US1.2
-NAME: GUI for manipulating scrapers.
-OWNER: 
-STATUS: NotStarted
-PRIORITY: 2
-ESTIMATE: 4 hours ACTUAL:
-ISSUE: GUI for adding, editing, and deleting scrapers. GUI for activating scrapers. Each table entry in scrapers.html should have a delete, edit, and active link/button. Add scraper UI at the top of the table/page. Consider subdividing individual functionalities into US1.21, US1.22, etc.
-----------
-
-----------
-ID: US1.3
-NAME: GUI for filtering scrapers and results  
-OWNER: 
-STATUS: NotStarted
-PRIORITY: 2
-ESTIMATE: 4 hours ACTUAL:
-ISSUE: Filter by headlines, source, search_query, engines values and date, max_pages, page_step ranges.
-----------
-
-----------
-ID: US1.4
+ID: US1.5
 NAME: data mining UI 
 OWNER: 
 STATUS: NotStarted
@@ -39,7 +9,7 @@ ISSUE: data mining UI should be under scrapers page, 1 div/section is the scrape
 ----------
 
 ----------
-ID: US1.5
+ID: US1.6
 NAME: bar chart for article sources (for all results and query specific)
 OWNER: 
 STATUS: NotStarted
@@ -49,7 +19,7 @@ ISSUE:
 ----------
 
 ----------
-ID: US1.6
+ID: US1.7
 NAME: line graph for total/daily articles for (for all results and query specific)
 OWNER: 
 STATUS: NotStarted
@@ -59,7 +29,7 @@ ISSUE:
 ----------
 
 ----------
-ID: US1.6
+ID: US1.8
 NAME: k-means cluster analysis on article content / article headline similarities (for all results and query specific)
 OWNER: 
 STATUS: NotStarted
