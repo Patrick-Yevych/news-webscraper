@@ -23,15 +23,23 @@ def get_scrapers():
         engine = request.values.get("engine")
 
         if request.values.get("action_type") == "run_scraper":
+            print("Running Scraper ("+query+", "+engine+")")
             max_pages = request.values.get("max_pages")
             page_step = request.values.get("page_step") 
 
             if engine.lower() == 'google':
                 s = GoogleScraper(query, int(max_pages), int(page_step))
                 db.res_insert({"search_query": query, "engine": engine, "max_pages": max_pages, "page_step": page_step}, s.build_table())
-                
+
         elif request.values.get("action_type") == "delete_scraper":
+            print("Deleting Scraper ("+query+", "+engine+")")
             db.scraper_delete(query, engine)
+
+        elif request.values.get("action_type") == "create_scraper":
+            max_pages = request.values.get("max_pages")
+            page_step = request.values.get("page_step")
+            print("Creating Scraper ("+query+", "+engine+")")
+            db.scraper_insert({"search_query": query, "engine": engine, "max_pages": max_pages, "page_step": page_step})
         
     data = db.scraper_selectall()
     db.destroy()

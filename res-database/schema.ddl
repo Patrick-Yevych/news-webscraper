@@ -17,5 +17,5 @@ CREATE TABLE Results(
     search_query VARCHAR(100),
     engine VARCHAR(10),
     PRIMARY KEY (headline, source),
-    FOREIGN KEY (search_query, engine) REFERENCES Scrapers (search_query, engine)
+    FOREIGN KEY (search_query, engine) REFERENCES Scrapers (search_query, engine) ON DELETE CASCADE
 );

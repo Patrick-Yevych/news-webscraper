@@ -18,7 +18,7 @@
     .inline {
         display: inline;
     }
-    .link-button {
+    .link-button, .open-button {
         background: none;
         border: none;
         color: blue;
@@ -26,7 +26,10 @@
         cursor: pointer;
         font-size: 1em;
         font-family: serif;
-        padding-right:10px;
+        padding-right:5px;
+    }
+    .form-popup {
+        background-color: bisque;
     }
 </style>
 </head>
@@ -34,6 +37,38 @@
 
     <h2><a href="results">Results</a> | <a href="scrapers">Scrapers</a></h2>
 
+    <button class="open-button" onclick="new_scraper_open()">new</button>
+    <br><br>
+    <div class="form-popup" id="new_scraper_form">
+        <form method="POST" action="scrapers" class="form-container">
+
+        <input type="hidden" name="action_type" value="create_scraper">
+
+        <label for="search_query"><b>search_query:</b></label>
+        <input type="text" placeholder="Enter search query..." name="search_query" required>
+
+        <label for="engine"><b>engine:</b></label>
+        <input type="text" placeholder="Enter search engine..." name="engine" required>
+
+        <label for="max_pages"><b>max_pages:</b></label>
+        <input type="text" placeholder="Enter max number of pages..." name="max_pages" required>
+
+        <label for="page_step"><b>page_step:</b></label>
+        <input type="text" placeholder="Enter page step..." name="page_step" required>
+        <button type="submit" class="link-button">create</button>
+        <button type="button" class="link-button" onclick="new_scraper_close()">close</button>
+        </form>
+    </div>
+
+    <script>
+        function new_scraper_open() {
+            document.getElementById("new_scraper_form").style.display = "block";
+        }
+        function new_scraper_close() {
+            document.getElementById("new_scraper_form").style.display = "none";
+        }
+    </script>
+    <br>
     <table style="width:100%">
         <thead>
         <tr>
