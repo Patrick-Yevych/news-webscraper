@@ -13,8 +13,8 @@ ISSUE: web-scraper and webapp backend should exist in the same container
 ----------
 ID: US1.2
 NAME: GUI for manipulating scrapers.
-OWNER: 
-STATUS: NotStarted
+OWNER: Patrick Yevych
+STATUS: InProgress
 PRIORITY: 2
 ESTIMATE: 4 hours ACTUAL:
 ISSUE: GUI for adding, editing, and deleting scrapers. GUI for activating scrapers. Each table entry in scrapers.html should have a delete, edit, and active link/button. Add scraper UI at the top of the table/page. Consider subdividing individual functionalities into US1.21, US1.22, etc.
