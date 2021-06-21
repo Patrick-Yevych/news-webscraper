@@ -39,6 +39,14 @@ class DatabaseConnection():
             res.append({"search_query": search_query, "engine": engine, "max_pages": max_pages, "page_step": page_step})
         return res
 
+    def scraper_delete(self, search_query: str, engine: str):
+        STMT = "DELETE FROM Scrapers WHERE search_query=%s AND engine=%s;"
+        self.cs.execute(STMT, (search_query, engine))
+
+    def result_delete(self, headline: str, source: str):
+        STMT = "DELETE FROM Results WHERE headline=%s AND source=%s"
+        self.cs.execute(STMT, (headline, source))
+
     def destroy(self) -> None:
         self.cs.close()
         self.db_con.close()

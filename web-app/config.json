@@ -1,6 +1,6 @@
 {
     "db_con": {
-        "host": "res-database",
+        "host": "127.0.0.1",
         "user": "resdb",
         "password": "password",
         "database": "res_database"

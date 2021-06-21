@@ -15,6 +15,19 @@
     tr:hover {
         background-color:#dcdcdc;
     }
+    .inline {
+        display: inline;
+    }
+    .link-button {
+        background: none;
+        border: none;
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: 1em;
+        font-family: serif;
+        padding-right:10px;
+    }
 </style>
 </head>
 <body>
@@ -28,6 +41,7 @@
             <th>engine</th>
             <th>max_pages</th>
             <th>page_step</th>
+            <th>actions</th>
         </tr>
         </thead>
         <tbody>
@@ -37,6 +51,23 @@
             <td>{{item['engine']}}</td>
             <td>{{item['max_pages']}}</td>
             <td>{{item['page_step']}}</td>
+            <td> 
+            <form method="POST" action="scrapers" class="inline">
+                <input type="hidden" name="action_type" value="run_scraper">
+                <input type="hidden" name="search_query" value="{{item['search_query']}}">
+                <input type="hidden" name="engine" value="{{item['engine']}}">
+                <input type="hidden" name="max_pages" value="{{item['max_pages']}}">
+                <input type="hidden" name="page_step" value="{{item['page_step']}}">
+                <button type="submit" name="run_btn" value="run_req" class="link-button">run</button>
+            </form> 
+            
+            <form method="POST" action="scrapers" class="inline">
+                <input type="hidden" name="action_type" value="delete_scraper">
+                <input type="hidden" name="search_query" value="{{item['search_query']}}">
+                <input type="hidden" name="engine" value="{{item['engine']}}">
+                <button type="submit" name="delete_btn" value="delete_req" class="link-button">delete</button>
+            </form>
+            </td>
         </tr>
         {% endfor %}
         </tbody>
