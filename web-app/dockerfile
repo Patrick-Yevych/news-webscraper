@@ -1,0 +1,19 @@
+FROM python:latest
+
+EXPOSE 5000
+
+RUN pip install flask
+RUN pip install mysql-connector-python
+RUN pip install pandas
+RUN pip install beautifulsoup4
+RUN pip install requests
+
+CMD ["python3", "app.py"]
+
+COPY Scraper.py /Scraper.py
+COPY GoogleScraper.py /GoogleScraper.py
+COPY config.json /config.json
+COPY ScraperApp.py /ScraperApp.py
+COPY DatabaseConnection.py /DatabaseConnection.py
+COPY templates /templates
+COPY app.py /app.py
