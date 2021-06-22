@@ -56,10 +56,10 @@ class GoogleScraper(Scraper):
         return res
 
 
-    def get_rel_dates(self, news_objs: BeautifulSoup) -> List[str]:
+    def get_raw_dates(self, news_objs: BeautifulSoup) -> List[str]:
         res = []
         for span in self.get_spans(news_objs):
-            if re.match(GOOGLE_REL_DATE_PATTERN, span) != None:
+            if re.match(GOOGLE_REL_DATE_PATTERN, span) != None or re.match(GOOGLE_DATE_PATTERN, span) != None:
                 res.append(span)
         return res
 
@@ -76,7 +76,7 @@ class GoogleScraper(Scraper):
     def get_dates(self) -> List[str]:
         res = []
         for i in range(0, self.max_pages, self.page_step):
-            for rd in self.get_rel_dates(self.get_news_objs(i)):
+            for rd in self.get_raw_dates(self.get_news_objs(i)):
                 date = None
                 if re.match(GOOGLE_DATE_PATTERN, rd) != None:
                     text = rd.replace(",", "").replace(".", "")
@@ -101,7 +101,6 @@ class GoogleScraper(Scraper):
                         if d == '':
                             date_list.remove(d)
                     date = datetime.datetime.strptime(date_list[0]+" "+date_list[1]+" "+date_list[2]+" "+date_list[4], '%a %b %d %Y')
-                print(date)
                 res.append(date)
         return res
 
