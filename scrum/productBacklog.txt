@@ -20,32 +20,32 @@ ISSUE: data mining UI should be under scrapers page, 1 div/section is the scrape
 
 ----------
 ID: US1.6
-NAME: bar chart for article sources (for all results and query specific)
+NAME: Article sources graph
 OWNER: 
 STATUS: NotStarted
 PRIORITY: 3
 ESTIMATE: 4 hours ACTUAL:
-ISSUE: 
+ISSUE: bar chart for article sources (for all results and query specific)
 ----------
 
 ----------
 ID: US1.7
-NAME: line graph for total/daily articles for (for all results and query specific)
+NAME: Articles over time graph
 OWNER: 
 STATUS: NotStarted
 PRIORITY: 3
 ESTIMATE: 4 hours ACTUAL:
-ISSUE:
+ISSUE: line graph for total/daily articles for (for all results and query specific)
 ----------
 
 ----------
 ID: US1.8
-NAME: k-means cluster analysis on article content / article headline similarities (for all results and query specific)
+NAME: Article Similarities
 OWNER: 
 STATUS: NotStarted
 PRIORITY: 3
 ESTIMATE: 3 Days ACTUAL:
-ISSUE: 
+ISSUE: k-means cluster analysis on article content / article headline similarities (for all results and query specific)
 ----------
 
 ----------
@@ -86,4 +86,14 @@ STATUS: NotStarted
 PRIORITY: 3
 ESTIMATE: 3 Days ACTUAL:
 ISSUE: Analyse Sentiment of search results for each query and convert to a 0-100 positive/negative sentiment scale.
+----------
+
+----------
+ID: US2.5
+NAME: Automatic Scraping
+OWNER: 
+STATUS: NotStarted
+PRIORITY: 2
+ESTIMATE: 3 hours ACTUAL:
+ISSUE: Add fields run_interval and last_run to scrapers. Users can configure (through UI) an interval (e.g. every 3 hours) for the scraper to run. last_run contains the date and time of when the scraper was last executed. Under the actions column, add a stop/start button so users can manually pause automatic scraping.
 ----------
