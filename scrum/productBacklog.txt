@@ -37,3 +37,53 @@ PRIORITY: 3
 ESTIMATE: 3 Days ACTUAL:
 ISSUE: 
 ----------
+
+----------
+ID: BUG1.1
+NAME: Fix date scraping on GoogleScrapper
+OWNER: 
+STATUS: NotStarted
+PRIORITY: 2
+ESTIMATE: 2 hours ACTUAL:
+ISSUE: Old news articles format publication date similar to Jan. 16, 2013. GoogleScraper does not account for this.
+----------
+
+----------
+ID: US2.1
+NAME: Reduce request flooding
+OWNER: 
+STATUS: NotStarted
+PRIORITY: 2
+ESTIMATE: 1 hours ACTUAL:
+ISSUE: get_news_objs should cache Beautiful soup object so a seperate request by get_dates, get_headlines, get_source, etc. doesn't need to be sent out for the same page. get_news_objs should also call time.sleep and sleep for a random period of time.
+----------
+
+----------
+ID: US2.2
+NAME: Depth Scraping
+OWNER: 
+STATUS: NotStarted
+PRIORITY: 4
+ESTIMATE: 2 Days ACTUAL:
+ISSUE: For US1.8, scrape contents of articles.
+----------
+
+----------
+ID: US2.3
+NAME: Scraping other sites 
+OWNER: 
+STATUS: 
+PRIORITY: 4
+ESTIMATE: 2 hours ACTUAL:
+ISSUE: Build scrapers for other engines (reddit, duckduckgo). 
+----------
+
+----------
+ID: US2.4
+NAME: Sentimental analysis
+OWNER: 
+STATUS: NotStarted
+PRIORITY: 3
+ESTIMATE: 3 Days ACTUAL:
+ISSUE: Analyse Sentiment of search results for each query and convert to a 0-100 positive/negative sentiment scale.
+----------
