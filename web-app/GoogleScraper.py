@@ -18,7 +18,7 @@ class GoogleScraper(Scraper):
     per_page = 0
     query = ""
 
-    def __init__(self, query: str, max_pages: int = 1000, page_step: int = 1, per_page: int = 10) -> None:
+    def __init__(self, query: str, max_pages: int = 100, page_step: int = 1, per_page: int = 10) -> None:
         self.query = query
         self.page_step = page_step
         self.max_pages = min(max_pages, 1000)

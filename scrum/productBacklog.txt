@@ -41,8 +41,8 @@ ISSUE:
 ----------
 ID: BUG1.1
 NAME: Fix date scraping on GoogleScrapper
-OWNER: 
-STATUS: NotStarted
+OWNER: Patrick Yevych
+STATUS: InProgress
 PRIORITY: 2
 ESTIMATE: 2 hours ACTUAL:
 ISSUE: Old news articles format publication date similar to Jan. 16, 2013. GoogleScraper does not account for this.
