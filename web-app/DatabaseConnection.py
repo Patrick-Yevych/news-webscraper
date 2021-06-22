@@ -20,8 +20,8 @@ class DatabaseConnection():
             self.cs.execute(STMT, (row[0], row[1], row[2], date, scraper['search_query'], scraper['engine'], row[2], date, scraper['search_query'], scraper['engine']))
 
     def scraper_insert(self, scraper: dict) -> None:
-        STMT = "INSERT INTO Scrapers(search_query, engine, max_pages, page_step) VALUES (%s, %s, %s, %s) ON DUPLICATE KEY UPDATE max_pages=%s, page_step=%s;"
-        self.cs.execute(STMT, (scraper['search_query'], scraper['engine'], scraper['max_pages'], scraper['page_step'], scraper['max_pages'], scraper['page_step']))
+        STMT = "INSERT INTO Scrapers(search_query, engine, max_pages, page_step, per_page) VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE max_pages=%s, page_step=%s, per_page=%s;"
+        self.cs.execute(STMT, (scraper['search_query'], scraper['engine'], scraper['max_pages'], scraper['page_step'], scraper['per_page'], scraper['max_pages'], scraper['page_step'], scraper['per_page']))
 
     def res_selectall(self) -> list:
         res = []
@@ -35,8 +35,8 @@ class DatabaseConnection():
         res = []
         STMT = "SELECT * FROM Scrapers;"
         self.cs.execute(STMT)
-        for search_query, engine, max_pages, page_step in self.cs:
-            res.append({"search_query": search_query, "engine": engine, "max_pages": max_pages, "page_step": page_step})
+        for search_query, engine, max_pages, page_step, per_page in self.cs:
+            res.append({"search_query": search_query, "engine": engine, "max_pages": max_pages, "page_step": page_step, "per_page": per_page})
         return res
 
     def scraper_delete(self, search_query: str, engine: str):

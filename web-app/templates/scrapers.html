@@ -54,10 +54,14 @@
         </select>
 
         <label for="max_pages"><b>max_pages:</b></label>
-        <input type="text" placeholder="Enter max number of pages..." name="max_pages" required>
+        <input type="text" placeholder="Enter max page count..." name="max_pages" required>
 
         <label for="page_step"><b>page_step:</b></label>
         <input type="text" placeholder="Enter page step..." name="page_step" required>
+
+        <label for="per_page"><b>per_page:</b></label>
+        <input type="text" placeholder="Enter results per page..." name="per_page" required>
+
         <button type="submit" class="link-button">create</button>
         <button type="button" class="link-button" onclick="new_scraper_close()">close</button>
         </form>
@@ -79,6 +83,7 @@
             <th>engine</th>
             <th>max_pages</th>
             <th>page_step</th>
+            <th>per_page</th>
             <th>actions</th>
         </tr>
         </thead>
@@ -89,6 +94,7 @@
             <td>{{item['engine']}}</td>
             <td>{{item['max_pages']}}</td>
             <td>{{item['page_step']}}</td>
+            <td>{{item['per_page']}}</td>
             <td> 
             <form method="POST" action="scrapers" class="inline">
                 <input type="hidden" name="action_type" value="run_scraper">
@@ -96,6 +102,7 @@
                 <input type="hidden" name="engine" value="{{item['engine']}}">
                 <input type="hidden" name="max_pages" value="{{item['max_pages']}}">
                 <input type="hidden" name="page_step" value="{{item['page_step']}}">
+                <input type="hidden" name="per_page" value="{{item['per_page']}}">
                 <button type="submit" name="run_btn" value="run_req" class="link-button">run</button>
             </form> 
             

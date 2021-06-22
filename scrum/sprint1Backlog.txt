@@ -54,9 +54,9 @@ ISSUE: Send and Handle POST request for scraper manipulation in US1.2.
 ID: US1.9
 NAME: Ability to specify number of results per page in Scraper creation.
 OWNER: Patrick Yevych
-STATUS: InProgress
+STATUS: Completed
 PRIORITY: 2
-ESTIMATE: 2 hour ACTUAL:
+ESTIMATE: 2 hour ACTUAL: 20 minutes
 ISSUE: Add to UI/DB/GoogleScraper/Scraper a new field called per_page which specifies the number of results to retrieve per page. To query more results per page, add &num=PER_PAGE into the request url (e.g. &num=100 for 100 results per page; this is the max amount)
 
 ----------

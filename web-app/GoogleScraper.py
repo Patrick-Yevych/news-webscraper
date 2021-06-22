@@ -15,16 +15,18 @@ class GoogleScraper(Scraper):
 
     page_step = 0
     max_pages = 0
+    per_page = 0
     query = ""
 
-    def __init__(self, query: str, max_pages: int = 1000, page_step: int = 10) -> None:
+    def __init__(self, query: str, max_pages: int = 1000, page_step: int = 1, per_page: int = 10) -> None:
         self.query = query
         self.page_step = page_step
         self.max_pages = min(max_pages, 1000)
+        self.per_page = min(per_page, 100)
     
 
     def get_news_objs(self, page: int = 0) -> BeautifulSoup:
-        req = requests.get('https://www.google.com/search?q='+self.query.replace(" ", "+")+'&source=lnms&tbm=nws&start='+str(page), allow_redirects=False, headers=Scraper.HEADERS)
+        req = requests.get('https://www.google.com/search?q='+self.query.replace(" ", "+")+'&source=lnms&tbm=nws&start='+str(page)+'&num='+str(self.per_page), allow_redirects=False, headers=Scraper.HEADERS)
         return BeautifulSoup(req.text, 'html.parser')
 
 

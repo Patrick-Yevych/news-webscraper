@@ -6,6 +6,7 @@ CREATE TABLE Scrapers(
     engine VARCHAR(10),
     max_pages INTEGER NOT NULL CHECK (max_pages >= 0),
     page_step INTEGER NOT NULL CHECK (page_step >= 0),
+    per_page INTEGER NOT NULL CHECK (per_page >= 0),
     PRIMARY KEY (search_query, engine)
 );
 

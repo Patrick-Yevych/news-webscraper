@@ -25,11 +25,12 @@ def get_scrapers():
         if request.values.get("action_type") == "run_scraper":
             print("Running Scraper ("+query+", "+engine+")")
             max_pages = request.values.get("max_pages")
-            page_step = request.values.get("page_step") 
+            page_step = request.values.get("page_step")
+            per_page = request.values.get("per_page")
 
             if engine.lower() == 'google':
-                s = GoogleScraper(query, int(max_pages), int(page_step))
-                db.res_insert({"search_query": query, "engine": engine, "max_pages": max_pages, "page_step": page_step}, s.build_table())
+                s = GoogleScraper(query, int(max_pages), int(page_step), int(per_page))
+                db.res_insert({"search_query": query, "engine": engine, "max_pages": max_pages, "page_step": page_step, "per_page": per_page}, s.build_table())
 
         elif request.values.get("action_type") == "delete_scraper":
             print("Deleting Scraper ("+query+", "+engine+")")
@@ -38,10 +39,12 @@ def get_scrapers():
         elif request.values.get("action_type") == "create_scraper":
             max_pages = float(request.values.get("max_pages"))
             page_step = float(request.values.get("page_step"))
-            if (max_pages > 0 and page_step > 0 
-                and max_pages % math.floor(max_pages) == 0 and page_step % math.floor(page_step) == 0):
+            per_page = float(request.values.get("per_page"))
+
+            if (max_pages > 0 and page_step > 0 and per_page > 0
+                and max_pages % math.floor(max_pages) == 0 and page_step % math.floor(page_step) == 0 and per_page % math.floor(per_page) == 0):
                 print("Creating Scraper ("+query+", "+engine+")")
-                db.scraper_insert({"search_query": query, "engine": engine, "max_pages": max_pages, "page_step": page_step})
+                db.scraper_insert({"search_query": query, "engine": engine, "max_pages": max_pages, "page_step": page_step, "per_page": per_page})
             
     data = db.scraper_selectall()
     db.destroy()
