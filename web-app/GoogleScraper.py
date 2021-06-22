@@ -2,14 +2,15 @@ from Scraper import Scraper
 
 from typing import List
 from bs4 import BeautifulSoup
-import requests, re, time
+import requests, re, time, datetime
 import pandas as pd
 
 STRS_BLACKLIST = ('×', 'Search tools', 'Recent', 'Sorted by relevance', 'SW_C_X', 'Sign in', 'Next >')
 GOOGLE_LINK_PATTERN = r"^https?:\/\/.*\.google\..*$"
 
 LINK_HEAD_PATTERN = r"(\/url\?q=)(https?:\/\/.*)"
-GOOGLE_DATE_PATTERN = r"^\d+ (seconds?|minutes?|hours?|days?|months?|years?) ago$"
+GOOGLE_REL_DATE_PATTERN = r"^\d+ (seconds?|minutes?|hours?|days?|months?|years?) ago$"
+GOOGLE_DATE_PATTERN = r"^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\.?\s\d{1,2},?\s\d{1,4}$"
 
 class GoogleScraper(Scraper):
 
@@ -58,7 +59,7 @@ class GoogleScraper(Scraper):
     def get_rel_dates(self, news_objs: BeautifulSoup) -> List[str]:
         res = []
         for span in self.get_spans(news_objs):
-            if re.match(GOOGLE_DATE_PATTERN, span) != None:
+            if re.match(GOOGLE_REL_DATE_PATTERN, span) != None:
                 res.append(span)
         return res
 
@@ -76,25 +77,32 @@ class GoogleScraper(Scraper):
         res = []
         for i in range(0, self.max_pages, self.page_step):
             for rd in self.get_rel_dates(self.get_news_objs(i)):
-                text = rd.split(" ")
-                c = 0
-                if text[1] == "second" or text[1] == "seconds":
-                    c = 1
-                elif text[1] == "minute" or text[1] == "minutes":
-                    c = 60
-                elif text[1] == "hour" or text[1] == "hours":
-                    c = 60*60
-                elif text[1] == "day" or text[1] == "days":
-                    c = 24*60*60
-                elif text[1] == "month" or text[1] == "months":
-                    c = 30*24*60*60
-                elif text[1] == "year" or text[1] == "years":
-                    c = 12*30*24*60*60
-                date = (time.ctime(time.time()-c*int(text[0]))).split(" ")
-                for d in date:
-                    if d == '':
-                        date.remove(d)
-                res.append(date[0]+" "+date[1]+" "+date[2]+" "+date[4])
+                date = None
+                if re.match(GOOGLE_DATE_PATTERN, rd) != None:
+                    text = rd.replace(",", "").replace(".", "")
+                    date = datetime.datetime.strptime(text, '%b %d %Y')
+                else:
+                    text = rd.split(" ")
+                    c = 0
+                    if text[1] == "second" or text[1] == "seconds":
+                        c = 1
+                    elif text[1] == "minute" or text[1] == "minutes":
+                        c = 60
+                    elif text[1] == "hour" or text[1] == "hours":
+                        c = 60*60
+                    elif text[1] == "day" or text[1] == "days":
+                        c = 24*60*60
+                    elif text[1] == "month" or text[1] == "months":
+                        c = 30*24*60*60
+                    elif text[1] == "year" or text[1] == "years":
+                        c = 12*30*24*60*60
+                    date_list = (time.ctime(time.time()-c*int(text[0]))).split(" ") # Format ['Tue', 'Jun', '22', '04:34:42', '2021']
+                    for d in date_list:
+                        if d == '':
+                            date_list.remove(d)
+                    date = datetime.datetime.strptime(date_list[0]+" "+date_list[1]+" "+date_list[2]+" "+date_list[4], '%a %b %d %Y')
+                print(date)
+                res.append(date)
         return res
 
 

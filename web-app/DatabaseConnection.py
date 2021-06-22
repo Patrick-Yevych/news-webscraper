@@ -1,4 +1,4 @@
-import json, mysql.connector, datetime
+import json, mysql.connector
 import pandas as pd
 
 class DatabaseConnection():
@@ -16,8 +16,7 @@ class DatabaseConnection():
     def res_insert(self, scraper: dict, results: pd.DataFrame) -> None:
         for row in results.values.tolist():
             STMT = "INSERT INTO Results(headline, source, url, published_date, search_query, engine) VALUES (%s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE url=%s, published_date=%s, search_query=%s, engine=%s;" 
-            date = datetime.datetime.strptime(row[3], '%a %b %d %Y')
-            self.cs.execute(STMT, (row[0], row[1], row[2], date, scraper['search_query'], scraper['engine'], row[2], date, scraper['search_query'], scraper['engine']))
+            self.cs.execute(STMT, (row[0], row[1], row[2], row[3], scraper['search_query'], scraper['engine'], row[2], row[3], scraper['search_query'], scraper['engine']))
 
     def scraper_insert(self, scraper: dict) -> None:
         STMT = "INSERT INTO Scrapers(search_query, engine, max_pages, page_step, per_page) VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE max_pages=%s, page_step=%s, per_page=%s;"

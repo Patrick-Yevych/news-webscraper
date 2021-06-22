@@ -60,3 +60,13 @@ ESTIMATE: 2 hour ACTUAL: 20 minutes
 ISSUE: Add to UI/DB/GoogleScraper/Scraper a new field called per_page which specifies the number of results to retrieve per page. To query more results per page, add &num=PER_PAGE into the request url (e.g. &num=100 for 100 results per page; this is the max amount)
 
 ----------
+
+----------
+ID: BUG1.1
+NAME: Fix date scraping on GoogleScrapper
+OWNER: Patrick Yevych
+STATUS: InProgress
+PRIORITY: 2
+ESTIMATE: 2 hours ACTUAL:
+ISSUE: Old news articles format publication date similar to Jan. 16, 2013. GoogleScraper does not account for this.
+----------
