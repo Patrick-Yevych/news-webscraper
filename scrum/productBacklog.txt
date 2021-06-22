@@ -1,4 +1,14 @@
 ----------
+ID: US1.3
+NAME: GUI for filtering scrapers and results  
+OWNER: 
+STATUS: NotStarted
+PRIORITY: 2
+ESTIMATE: 4 hours ACTUAL:
+ISSUE: Filter by headlines, source, search_query, engines values and date, max_pages, page_step ranges.
+----------
+
+----------
 ID: US1.5
 NAME: data mining UI 
 OWNER: 
