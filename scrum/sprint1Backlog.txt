@@ -65,8 +65,8 @@ ISSUE: Add to UI/DB/GoogleScraper/Scraper a new field called per_page which spec
 ID: BUG1.1
 NAME: Fix date scraping on GoogleScrapper
 OWNER: Patrick Yevych
-STATUS: InProgress
+STATUS: Completed
 PRIORITY: 2
-ESTIMATE: 2 hours ACTUAL:
+ESTIMATE: 2 hours ACTUAL: 30 minutes
 ISSUE: Old news articles format publication date similar to Jan. 16, 2013. GoogleScraper does not account for this.
 ----------
