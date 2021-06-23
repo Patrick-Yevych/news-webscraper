@@ -7,6 +7,9 @@ CREATE TABLE Scrapers(
     max_pages INTEGER NOT NULL CHECK (max_pages >= 0),
     page_step INTEGER NOT NULL CHECK (page_step >= 0),
     per_page INTEGER NOT NULL CHECK (per_page >= 0),
+    run_interval_value INTEGER NOT NULL CHECK (run_interval_value >= 0),
+    run_interval_metric VARCHAR(3) NOT NULL, -- min/hrs/day/wks/mon/yrs
+    last_run DATE,
     PRIMARY KEY (search_query, engine)
 );
 

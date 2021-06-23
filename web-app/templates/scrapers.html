@@ -38,7 +38,7 @@
 
     <h2><a href="results">Results</a> | <a href="scrapers">Scrapers</a></h2>
 
-    <button class="link-button" onclick="new_scraper_open()">new scraper</button>
+    [<button class="link-button" onclick="new_scraper_open()">new scraper</button>]
     <br><br>
     <div class="form-popup" id="new_scraper_form">
         <form method="POST" action="scrapers" class="form-container">
@@ -62,8 +62,8 @@
         <label for="per_page"><b>per_page:</b></label>
         <input type="text" placeholder="Default: 10, Max: 100" name="per_page" required>
 
-        <button type="submit" class="link-button">create</button>
-        <button type="button" class="link-button" onclick="new_scraper_close()">close</button>
+        [<button type="submit" class="link-button">create</button>]
+        [<button type="button" class="link-button" onclick="new_scraper_close()">close</button>]
         </form>
     </div>
 
@@ -103,14 +103,14 @@
                 <input type="hidden" name="max_pages" value="{{item['max_pages']}}">
                 <input type="hidden" name="page_step" value="{{item['page_step']}}">
                 <input type="hidden" name="per_page" value="{{item['per_page']}}">
-                <button type="submit" name="run_btn" value="run_req" class="link-button">run</button>
+                [<button type="submit" name="run_btn" value="run_req" class="link-button">run</button>]
             </form> 
             
             <form method="POST" action="scrapers" class="inline">
                 <input type="hidden" name="action_type" value="delete_scraper">
                 <input type="hidden" name="search_query" value="{{item['search_query']}}">
                 <input type="hidden" name="engine" value="{{item['engine']}}">
-                <button type="submit" name="delete_btn" value="delete_req" class="link-button">delete</button>
+                [<button type="submit" name="delete_btn" value="delete_req" class="link-button">delete</button>]
             </form>
             </td>
         </tr>
