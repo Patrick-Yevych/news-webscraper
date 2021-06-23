@@ -60,3 +60,13 @@ PRIORITY: 2
 ESTIMATE: 2 hours ACTUAL: 30 minutes
 ISSUE: Old news articles format publication date similar to Jan. 16, 2013. GoogleScraper does not account for this.
 ----------
+
+----------
+ID: US2.5
+NAME: Automatic Scraping
+OWNER: Patrick Yevych
+STATUS: InProgress
+PRIORITY: 2
+ESTIMATE: 3 hours ACTUAL:
+ISSUE: Add fields run_interval and last_run to scrapers. Users can configure (through UI) an interval (e.g. every 3 hours) for the scraper to run. last_run contains the date and time of when the scraper was last executed. Under the actions column, add a stop/start button so users can manually pause automatic scraping.
+----------

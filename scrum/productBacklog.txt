@@ -87,13 +87,3 @@ PRIORITY: 3
 ESTIMATE: 3 Days ACTUAL:
 ISSUE: Analyse Sentiment of search results for each query and convert to a 0-100 positive/negative sentiment scale.
 ----------
-
-----------
-ID: US2.5
-NAME: Automatic Scraping
-OWNER: 
-STATUS: NotStarted
-PRIORITY: 2
-ESTIMATE: 3 hours ACTUAL:
-ISSUE: Add fields run_interval and last_run to scrapers. Users can configure (through UI) an interval (e.g. every 3 hours) for the scraper to run. last_run contains the date and time of when the scraper was last executed. Under the actions column, add a stop/start button so users can manually pause automatic scraping.
-----------
