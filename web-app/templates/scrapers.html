@@ -31,6 +31,10 @@
     .form-popup {
         display: none;
         background-color: bisque;
+        width:50%;
+    }
+    .form-popup-btns {
+        padding-left:1px;
     }
 </style>
 </head>
@@ -62,9 +66,10 @@
         <label for="per_page"><b>per_page:</b></label>
         <input type="text" placeholder="Default: 10, Max: 100" name="per_page" required>
 
-        <label for="run_interval_value">run_interval</label>
-        <input type="text" placeholder="Integer" name="run_interval_value">
+        <label for="run_interval_value"><b>run_interval:</b> every </label>
+        <input type="text" placeholder="" name="run_interval_value">
         <select name="run_interval_metric">
+            <option value="manual">disabled</option>
             <option value="minute">minute(s)</option>
             <option value="hour">hour(s)</option>
             <option value="day">day(s)</option>
@@ -73,9 +78,10 @@
             <option value="year">year(s)</option>
         </select>
 
-        [<button type="submit" class="link-button">create</button>]
-        [<button type="button" class="link-button" onclick="new_scraper_close()">close</button>]
-
+        <div class="form-popup-btns" id="popup-btns">
+            [<button type="submit" class="link-button">create</button>]
+            [<button type="button" class="link-button" onclick="new_scraper_close()">close</button>]
+        </div>
         </form>
     </div>
 
@@ -88,14 +94,17 @@
         }
     </script>
     <br>
-    <table style="width:100%">
+    <table style="width:50%">
         <thead>
-        <tr>
+        <tr style="background-color:burlywood;">
             <th>search_query</th>
             <th>engine</th>
             <th>max_pages</th>
             <th>page_step</th>
             <th>per_page</th>
+            <th>interval_value</th>
+            <th>interval_metric</th>
+            <th>last_run</th>
             <th>actions</th>
         </tr>
         </thead>
@@ -107,6 +116,9 @@
             <td>{{item['max_pages']}}</td>
             <td>{{item['page_step']}}</td>
             <td>{{item['per_page']}}</td>
+            <td>{{item['run_interval_value']}}</td>
+            <td>{{item['run_interval_metric']}}</td>
+            <td>{{item['last_run']}}</td>
             <td> 
             <form method="POST" action="scrapers" class="inline">
                 <input type="hidden" name="action_type" value="run_scraper">

@@ -16,11 +16,18 @@ class DatabaseConnection():
     def res_insert(self, scraper: dict, results: pd.DataFrame) -> None:
         for row in results.values.tolist():
             STMT = "INSERT INTO Results(headline, source, url, published_date, search_query, engine) VALUES (%s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE url=%s, published_date=%s, search_query=%s, engine=%s;" 
-            self.cs.execute(STMT, (row[0], row[1], row[2], row[3], scraper['search_query'], scraper['engine'], row[2], row[3], scraper['search_query'], scraper['engine']))
+
+            self.cs.execute(STMT, (row[0], row[1], row[2], row[3], scraper['search_query'], 
+                                   scraper['engine'], row[2], row[3], scraper['search_query'], 
+                                   scraper['engine']))
 
     def scraper_insert(self, scraper: dict) -> None:
-        STMT = "INSERT INTO Scrapers(search_query, engine, max_pages, page_step, per_page) VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE max_pages=%s, page_step=%s, per_page=%s;"
-        self.cs.execute(STMT, (scraper['search_query'], scraper['engine'], scraper['max_pages'], scraper['page_step'], scraper['per_page'], scraper['max_pages'], scraper['page_step'], scraper['per_page']))
+        STMT = "INSERT INTO Scrapers(search_query, engine, max_pages, page_step, per_page, run_interval_value, run_interval_metric) VALUES (%s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE max_pages=%s, page_step=%s, per_page=%s, run_interval_value=%s, run_interval_metric=%s;"
+
+        self.cs.execute(STMT, (scraper['search_query'], scraper['engine'], scraper['max_pages'], 
+                               scraper['page_step'], scraper['per_page'], scraper['run_interval_value'], 
+                               scraper['run_interval_metric'], scraper['max_pages'], scraper['page_step'], 
+                               scraper['per_page'], scraper['run_interval_value'], scraper['run_interval_metric']))
 
     def res_selectall(self) -> list:
         res = []
@@ -34,8 +41,13 @@ class DatabaseConnection():
         res = []
         STMT = "SELECT * FROM Scrapers;"
         self.cs.execute(STMT)
-        for search_query, engine, max_pages, page_step, per_page in self.cs:
-            res.append({"search_query": search_query, "engine": engine, "max_pages": max_pages, "page_step": page_step, "per_page": per_page})
+        for search_query, engine, max_pages, page_step, per_page, run_interval_value, run_interval_metric, last_run in self.cs:
+
+            res.append({"search_query": search_query, "engine": engine, 
+                        "max_pages": max_pages, "page_step": page_step, 
+                        "per_page": per_page, "run_interval_value": run_interval_value,
+                        "run_interval_metric": run_interval_metric, "last_run": last_run})
+
         return res
 
     def scraper_delete(self, search_query: str, engine: str):

@@ -40,11 +40,25 @@ def get_scrapers():
             max_pages = float(request.values.get("max_pages"))
             page_step = float(request.values.get("page_step"))
             per_page = float(request.values.get("per_page"))
+            run_interval_metric = request.values.get("run_interval_metric")
+            
+            if request.values.get("run_interval_value") != '':
+                run_interval_value = float(request.values.get("run_interval_value"))
+            else:
+                run_interval_value = 0
 
-            if (max_pages > 0 and page_step > 0 and per_page > 0
-                and max_pages % math.floor(max_pages) == 0 and page_step % math.floor(page_step) == 0 and per_page % math.floor(per_page) == 0):
-                print("Creating Scraper ("+query+", "+engine+")")
-                db.scraper_insert({"search_query": query, "engine": engine, "max_pages": max_pages, "page_step": page_step, "per_page": per_page})
+            print(max_pages, page_step, per_page, run_interval_value, run_interval_metric)
+
+            if (max_pages > 0 and page_step > 0 and per_page > 0 and run_interval_value >= 0
+                and max_pages % math.floor(max_pages) == 0 and page_step % math.floor(page_step) == 0 
+                and per_page % math.floor(per_page) == 0 
+                and (run_interval_value == 0 or run_interval_value % math.floor(run_interval_value) == 0)):
+                
+                    print("Creating Scraper ("+query+", "+engine+")")
+                    db.scraper_insert({"search_query": query, "engine": engine, 
+                                       "max_pages": max_pages, "page_step": page_step, 
+                                       "per_page": per_page, "run_interval_value": run_interval_value,
+                                       "run_interval_metric": run_interval_metric})
             
     data = db.scraper_selectall()
     db.destroy()
