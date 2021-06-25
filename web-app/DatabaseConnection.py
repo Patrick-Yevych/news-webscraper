@@ -29,7 +29,7 @@ class DatabaseConnection():
                                scraper['run_interval_metric'], scraper['max_pages'], scraper['page_step'], 
                                scraper['per_page'], scraper['run_interval_value'], scraper['run_interval_metric']))
 
-    def res_selectall(self) -> list:
+    def res_selectall(self) -> dict:
         res = []
         STMT = "SELECT * FROM Results;"
         self.cs.execute(STMT)
@@ -49,6 +49,15 @@ class DatabaseConnection():
                         "run_interval_metric": run_interval_metric, "last_run": last_run})
 
         return res
+
+    def scraper_select(self, search_query: str, engine: str) -> dict:
+        STMT = "SELECT * FROM Scrapers WHERE search_query=%s, engine=%s;"
+        self.cs.execute(STMT, (search_query, engine))
+        row = self.cs.fetchone()
+        return {"search_query": search_query, "engine": engine, 
+                        "max_pages": row[2], "page_step": row[3], 
+                        "per_page":  row[4], "run_interval_value": row[5],
+                        "run_interval_metric": row[6], "last_run": row[7]}
 
     def scraper_delete(self, search_query: str, engine: str):
         STMT = "DELETE FROM Scrapers WHERE search_query=%s AND engine=%s;"
