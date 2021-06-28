@@ -29,6 +29,11 @@ class DatabaseConnection():
                                scraper['run_interval_metric'], scraper['max_pages'], scraper['page_step'], 
                                scraper['per_page'], scraper['run_interval_value'], scraper['run_interval_metric']))
 
+    def scraper_update_runtime(self, search_query: str, engine: str, runtime) -> None:
+        STMT = "UPDATE Scrapers SET last_run=%s WHERE search_query=%s AND engine=%s;"
+        self.cs.execute(STMT, (runtime, search_query, engine))
+        
+
     def res_selectall(self) -> dict:
         res = []
         STMT = "SELECT * FROM Results;"

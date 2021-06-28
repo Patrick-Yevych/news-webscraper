@@ -1,7 +1,7 @@
 from threading import Timer
 from DatabaseConnection import DatabaseConnection
 from GoogleScraper import GoogleScraper
-import _thread
+import _thread, datetime
 
 class ScraperCache:
     cache = None
@@ -36,10 +36,11 @@ class ScraperCache:
     def unpause(self, key: tuple) -> None:
         self.cache[key]['running'] = True
 
-    def scrape(self, key: tuple) -> None:
+    def scrape(self, key: tuple, run_time: str) -> None:
         db = DatabaseConnection("./config.json")
         
         scraper = db.scraper_select(key[0], key[1])
+        db.scraper_update_runtime(key[0], key[1], run_time)
         
         if scraper['engine'].lower() == 'google':
             s = GoogleScraper(scraper['search_query'], scraper['max_pages'], scraper['page_step'], scraper['per_page'])
@@ -54,13 +55,15 @@ class ScraperCache:
         db.destroy()
 
     def tick(self) -> dict:
+        print(self.cache)
         for k in self.cache:
             if (self.cache[k]['running'] == True):
                 self.cache[k]['countdown'] -= 1
                 if (self.cache[k]['countdown'] <= 0):
                     self.cache[k]['countdown'] = self.cache[k]['interval']
                     print("Starting ", k)
-                    _thread.start_new_thread(self.scrape, (k,))
+                    now = datetime.datetime.now()
+                    _thread.start_new_thread(self.scrape, (k, now.strftime('%Y-%m-%d %H:%M:%S'),))
 
     def __init__(self):
         self.cache = {}
