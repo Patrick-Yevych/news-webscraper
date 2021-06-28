@@ -38,12 +38,12 @@ def get_scrapers():
                 s = GoogleScraper(query, int(max_pages), int(page_step), int(per_page))
                 db.res_insert({"search_query": query, "engine": engine}, s.build_table())
 
-        elif request.values.get("action_type") == "toggle_scraper":
+        elif request.values.get("action_type") == "toggle_scraper" and scraper_cache.get((query, engine)) != None:
             if (scraper_cache.get((query, engine))["running"] == True):
                 scraper_cache.get((query, engine))["running"] = False
             else:
                 scraper_cache.get((query, engine))["running"] = True
-                
+
         elif request.values.get("action_type") == "delete_scraper":
             print("Deleting Scraper ("+query+", "+engine+")")
             db.scraper_delete(query, engine)
@@ -76,7 +76,9 @@ def get_scrapers():
             
     data = db.scraper_selectall()
     for scraper in data:
-        if (scraper_cache.get((scraper["search_query"], scraper["engine"]))["running"] == True):
+        if (scraper["run_interval_metric"] == 'manual'):
+            scraper["toggle_text"] = ""
+        elif (scraper_cache.get((scraper["search_query"], scraper["engine"]))["running"] == True):
             scraper["toggle_text"] = "pause"
         else:
             scraper["toggle_text"] = "start"

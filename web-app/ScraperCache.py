@@ -31,7 +31,10 @@ class ScraperCache:
             return None
 
     def get(self, key: tuple) -> dict:
-        return self.cache[key]
+        try:
+            return self.cache[key]
+        except (KeyError):
+            return None
 
     def pause(self, key: tuple) -> None:
         self.cache[key]['running'] = False
