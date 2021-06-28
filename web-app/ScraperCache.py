@@ -36,11 +36,12 @@ class ScraperCache:
     def unpause(self, key: tuple) -> None:
         self.cache[key]['running'] = True
 
-    def scrape(self, key: tuple, run_time: str) -> None:
+    def scrape(self, key: tuple) -> None:
         db = DatabaseConnection("./config.json")
         
         scraper = db.scraper_select(key[0], key[1])
-        db.scraper_update_runtime(key[0], key[1], run_time)
+        now = datetime.datetime.now()
+        db.scraper_update_runtime(key[0], key[1], now.strftime('%Y-%m-%d %H:%M:%S'))
         
         if scraper['engine'].lower() == 'google':
             s = GoogleScraper(scraper['search_query'], scraper['max_pages'], scraper['page_step'], scraper['per_page'])
@@ -51,7 +52,8 @@ class ScraperCache:
     def load(self) -> None:
         db = DatabaseConnection("./config.json")
         for scraper in db.scraper_selectall():
-            self.push((scraper["search_query"], scraper["engine"]), scraper["run_interval_value"], scraper["run_interval_metric"])
+            if (scraper["run_interval_metric"] != 'manual'):
+                self.push((scraper["search_query"], scraper["engine"]), scraper["run_interval_value"], scraper["run_interval_metric"])
         db.destroy()
 
     def tick(self) -> dict:
@@ -62,8 +64,7 @@ class ScraperCache:
                 if (self.cache[k]['countdown'] <= 0):
                     self.cache[k]['countdown'] = self.cache[k]['interval']
                     print("Starting ", k)
-                    now = datetime.datetime.now()
-                    _thread.start_new_thread(self.scrape, (k, now.strftime('%Y-%m-%d %H:%M:%S'),))
+                    _thread.start_new_thread(self.scrape, (k,))
 
     def __init__(self):
         self.cache = {}

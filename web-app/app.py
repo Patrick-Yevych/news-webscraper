@@ -1,5 +1,5 @@
 from werkzeug import datastructures
-import mysql.connector, json, math
+import mysql.connector, json, math, datetime
 #sys.path.append('../')
 from flask import Flask, render_template, request
 from DatabaseConnection import DatabaseConnection
@@ -31,6 +31,9 @@ def get_scrapers():
             page_step = request.values.get("page_step")
             per_page = request.values.get("per_page")
 
+            now = datetime.datetime.now()
+            db.scraper_update_runtime(query, engine, now.strftime('%Y-%m-%d %H:%M:%S'))
+
             if engine.lower() == 'google':
                 s = GoogleScraper(query, int(max_pages), int(page_step), int(per_page))
                 db.res_insert({"search_query": query, "engine": engine}, s.build_table())
@@ -46,7 +49,7 @@ def get_scrapers():
             per_page = float(request.values.get("per_page"))
             run_interval_metric = request.values.get("run_interval_metric")
             
-            if request.values.get("run_interval_value") != '':
+            if request.values.get("run_interval_value") != '' and run_interval_metric != 'manual':
                 run_interval_value = float(request.values.get("run_interval_value"))
             else:
                 run_interval_value = -1
