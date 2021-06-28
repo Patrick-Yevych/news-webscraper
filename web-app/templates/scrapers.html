@@ -128,7 +128,14 @@
                 <input type="hidden" name="page_step" value="{{item['page_step']}}">
                 <input type="hidden" name="per_page" value="{{item['per_page']}}">
                 [<button type="submit" name="run_btn" value="run_req" class="link-button">run</button>]
-            </form> 
+            </form>
+
+            <form method="POST" action="scrapers" class="inline">
+                <input type="hidden" name="action_type" value="toggle_scraper">
+                <input type="hidden" name="search_query" value="{{item['search_query']}}">
+                <input type="hidden" name="engine" value="{{item['engine']}}">
+                [<button type="submit" id="toggle_scraper_btn" name="toggle_btn" value="toggle_req" class="link-button">{{item['toggle_text']}}</button>]
+            </form>
             
             <form method="POST" action="scrapers" class="inline">
                 <input type="hidden" name="action_type" value="delete_scraper">
