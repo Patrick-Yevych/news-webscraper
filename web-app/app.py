@@ -77,7 +77,7 @@ def get_scrapers():
     data = db.scraper_selectall()
     for scraper in data:
         if (scraper["run_interval_metric"] == 'manual'):
-            scraper["toggle_text"] = "××××"
+            scraper["toggle_text"] = ""
         elif (scraper_cache.get((scraper["search_query"], scraper["engine"]))["running"] == True):
             scraper["toggle_text"] = "pause"
         else:

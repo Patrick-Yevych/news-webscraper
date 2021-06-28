@@ -70,3 +70,13 @@ PRIORITY: 2
 ESTIMATE: 3 hours ACTUAL: 9 hours
 ISSUE: Add fields run_interval and last_run to scrapers. Users can configure (through UI) an interval (e.g. every 3 hours) for the scraper to run. last_run contains the date and time of when the scraper was last executed. Under the actions column, add a stop/start button so users can manually pause automatic scraping.
 ----------
+
+----------
+ID: BUG1.3
+NAME: GUI improvement for manual scrapers
+OWNER: Patrick Yevych
+STATUS: Completed
+PRIORITY: 3
+ESTIMATE: 4 hours ACTUAL: 1 hour
+ISSUE: Hide the form/button for toggling scrapers for manual scrapers.
+----------

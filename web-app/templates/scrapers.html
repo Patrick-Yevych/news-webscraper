@@ -31,15 +31,25 @@
     .form-popup {
         display: none;
         background-color: bisque;
-        width:50%;
+        width:60%;
     }
     .form-popup-btns {
         padding-left:1px;
     }
 </style>
+<script>
+
+    var scraper_toggle_id = 0;
+
+    function new_scraper_open() {
+        document.getElementById("new_scraper_form").style.display = "block";
+    }
+    function new_scraper_close() {
+        document.getElementById("new_scraper_form").style.display = "none";
+    }
+</script>
 </head>
 <body>
-
     <h2><a href="results">Results</a> | <a href="scrapers">Scrapers</a></h2>
 
     [<button class="link-button" onclick="new_scraper_open()">new/edit scraper</button>]
@@ -84,15 +94,6 @@
         </div>
         </form>
     </div>
-
-    <script>
-        function new_scraper_open() {
-            document.getElementById("new_scraper_form").style.display = "block";
-        }
-        function new_scraper_close() {
-            document.getElementById("new_scraper_form").style.display = "none";
-        }
-    </script>
     <br>
     <table style="width:60%">
         <thead>
@@ -130,11 +131,11 @@
                 [<button type="submit" name="run_btn" value="run_req" class="link-button">run</button>]
             </form>
 
-            <form method="POST" action="scrapers" class="inline">
+            <form method="POST" id="toggle_scraper_form" action="scrapers" class="inline">
                 <input type="hidden" name="action_type" value="toggle_scraper">
                 <input type="hidden" name="search_query" value="{{item['search_query']}}">
                 <input type="hidden" name="engine" value="{{item['engine']}}">
-                [<button type="submit" id="toggle_scraper_btn" name="toggle_btn" value="toggle_req" class="link-button">{{item['toggle_text']}}</button>]
+                [<button type="submit" name="toggle_btn" value="toggle_req" class="link-button">{{item['toggle_text']}}</button>]
             </form>
             
             <form method="POST" action="scrapers" class="inline">
@@ -143,6 +144,18 @@
                 <input type="hidden" name="engine" value="{{item['engine']}}">
                 [<button type="submit" name="delete_btn" value="delete_req" class="link-button">delete</button>]
             </form>
+
+            <script>
+                function set_toggle_visibility(id) {
+                    if ("{{item['run_interval_metric']}}" == "manual") {
+                        document.getElementById(id).style.display = "none";
+                    }
+                }
+                document.getElementById("toggle_scraper_form").setAttribute("id", scraper_toggle_id);
+                set_toggle_visibility(scraper_toggle_id)
+                scraper_toggle_id += 1;
+            </script>
+
             </td>
         </tr>
         {% endfor %}
