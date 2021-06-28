@@ -87,3 +87,23 @@ PRIORITY: 3
 ESTIMATE: 3 Days ACTUAL:
 ISSUE: Analyse Sentiment of search results for each query and convert to a 0-100 positive/negative sentiment scale.
 ----------
+
+----------
+ID: BUG1.2
+NAME: Store "running" value in database
+OWNER: Patrick Yevych
+STATUS: NotStarted
+PRIORITY: 3
+ESTIMATE: 2 hours ACTUAL:
+ISSUE: Store the "running" boolean from the scraper cache into the database too, so when the web-app restarts, the toggle status of the scraper is preserved.
+----------
+
+----------
+ID: BUG1.3
+NAME: GUI improvement for manual scrapers
+OWNER: Patrick Yevych
+STATUS: NotStarted
+PRIORITY: 3
+ESTIMATE: 4 hours ACTUAL:
+ISSUE: Hide the form/button for toggling scrapers for manual scrapers.
+----------
