@@ -51,13 +51,14 @@ class DatabaseConnection():
         return res
 
     def scraper_select(self, search_query: str, engine: str) -> dict:
-        STMT = "SELECT * FROM Scrapers WHERE search_query=%s, engine=%s;"
+        STMT = "SELECT * FROM Scrapers WHERE search_query=%s AND engine=%s;"
         self.cs.execute(STMT, (search_query, engine))
-        row = self.cs.fetchone()
-        return {"search_query": search_query, "engine": engine, 
-                        "max_pages": row[2], "page_step": row[3], 
-                        "per_page":  row[4], "run_interval_value": row[5],
-                        "run_interval_metric": row[6], "last_run": row[7]}
+        for search_query, engine, max_pages, page_step, per_page, run_interval_value, run_interval_metric, last_run in self.cs:
+
+            return {"search_query": search_query, "engine": engine, 
+                        "max_pages": max_pages, "page_step": page_step, 
+                        "per_page": per_page, "run_interval_value": run_interval_value,
+                        "run_interval_metric": run_interval_metric, "last_run": last_run}
 
     def scraper_delete(self, search_query: str, engine: str):
         STMT = "DELETE FROM Scrapers WHERE search_query=%s AND engine=%s;"

@@ -33,11 +33,12 @@ def get_scrapers():
 
             if engine.lower() == 'google':
                 s = GoogleScraper(query, int(max_pages), int(page_step), int(per_page))
-                db.res_insert({"search_query": query, "engine": engine, "max_pages": max_pages, "page_step": page_step, "per_page": per_page}, s.build_table())
+                db.res_insert({"search_query": query, "engine": engine}, s.build_table())
 
         elif request.values.get("action_type") == "delete_scraper":
             print("Deleting Scraper ("+query+", "+engine+")")
             db.scraper_delete(query, engine)
+            scraper_cache.pop((query, engine))
 
         elif request.values.get("action_type") == "create_scraper":
             max_pages = float(request.values.get("max_pages"))
@@ -60,6 +61,9 @@ def get_scrapers():
                                        "max_pages": max_pages, "page_step": page_step, 
                                        "per_page": per_page, "run_interval_value": run_interval_value,
                                        "run_interval_metric": run_interval_metric})
+
+                    if (run_interval_value > 0 and run_interval_value % math.floor(run_interval_value) == 0 and run_interval_metric != 'manual'):
+                        scraper_cache.push((query, engine), run_interval_value, run_interval_metric)
             
     data = db.scraper_selectall()
     db.destroy()
