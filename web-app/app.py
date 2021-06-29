@@ -4,11 +4,15 @@ from flask import Flask, render_template, request
 from DatabaseConnection import DatabaseConnection
 from GoogleScraper import GoogleScraper
 from ScraperCache import ScraperCache
+from PieChartView import PieChartView
 
 scraper_cache = None
 
 app = Flask(__name__)
 
+@app.route("/sources")
+def get_sources_view():
+    return render_template('sources.html')
 
 @app.route("/results", methods=['GET'])
 def get_results():
@@ -73,7 +77,10 @@ def get_scrapers():
 
                     if (run_interval_value > 0 and run_interval_value % math.floor(run_interval_value) == 0 and run_interval_metric != 'manual'):
                         scraper_cache.push((query, engine), run_interval_value, run_interval_metric)
-            
+
+        elif request.values.get("action_type") == "view_scraper":
+            pie = PieChartView(db.sources_count(query, engine), './templates/sources.html')
+
     data = db.scraper_selectall()
     for scraper in data:
         if (scraper["run_interval_metric"] == 'manual'):
