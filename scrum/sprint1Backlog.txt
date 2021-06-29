@@ -80,3 +80,23 @@ PRIORITY: 3
 ESTIMATE: 4 hours ACTUAL: 1 hour
 ISSUE: Hide the form/button for toggling scrapers for manual scrapers.
 ----------
+
+----------
+ID: US1.5
+NAME: data mining UI 
+OWNER: Patrick Yevych
+STATUS: InProgress
+PRIORITY: 2
+ESTIMATE: 4 hours ACTUAL:
+ISSUE: data mining UI should be under scrapers page, 1 div/section is the scrapers list and the other is data mined for each scraper/query.
+----------
+
+----------
+ID: US1.6
+NAME: Article sources graph
+OWNER: 
+STATUS: NotStarted
+PRIORITY: 3
+ESTIMATE: 4 hours ACTUAL:
+ISSUE: bar chart for article sources (for all results and query specific)
+----------

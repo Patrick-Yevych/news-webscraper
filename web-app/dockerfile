@@ -7,6 +7,7 @@ RUN pip install mysql-connector-python
 RUN pip install pandas
 RUN pip install beautifulsoup4
 RUN pip install requests
+RUN pip install dash
 
 CMD ["python3", "app.py"]
 

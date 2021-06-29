@@ -38,7 +38,6 @@
     }
 </style>
 <script>
-
     var scraper_toggle_id = 0;
 
     function new_scraper_open() {
@@ -46,6 +45,11 @@
     }
     function new_scraper_close() {
         document.getElementById("new_scraper_form").style.display = "none";
+    }
+    function set_toggle_visibility(metric, id) {
+        if (metric == "manual") {
+            document.getElementById(id).style.display = "none";
+        }
     }
 </script>
 </head>
@@ -146,13 +150,8 @@
             </form>
 
             <script>
-                function set_toggle_visibility(id) {
-                    if ("{{item['run_interval_metric']}}" == "manual") {
-                        document.getElementById(id).style.display = "none";
-                    }
-                }
                 document.getElementById("toggle_scraper_form").setAttribute("id", scraper_toggle_id);
-                set_toggle_visibility(scraper_toggle_id)
+                set_toggle_visibility("{{item['run_interval_metric']}}", scraper_toggle_id)
                 scraper_toggle_id += 1;
             </script>
 

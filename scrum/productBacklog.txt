@@ -9,26 +9,6 @@ ISSUE: Filter by headlines, source, search_query, engines values and date, max_p
 ----------
 
 ----------
-ID: US1.5
-NAME: data mining UI 
-OWNER: 
-STATUS: NotStarted
-PRIORITY: 2
-ESTIMATE: 4 hours ACTUAL:
-ISSUE: data mining UI should be under scrapers page, 1 div/section is the scrapers list and the other is data mined for each scraper/query.
-----------
-
-----------
-ID: US1.6
-NAME: Article sources graph
-OWNER: 
-STATUS: NotStarted
-PRIORITY: 3
-ESTIMATE: 4 hours ACTUAL:
-ISSUE: bar chart for article sources (for all results and query specific)
-----------
-
-----------
 ID: US1.7
 NAME: Articles over time graph
 OWNER: 
