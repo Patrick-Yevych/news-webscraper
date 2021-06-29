@@ -1,4 +1,6 @@
 import json, mysql.connector
+
+from pandas.core.frame import DataFrame
 import pandas as pd
 
 class DatabaseConnection():
@@ -33,8 +35,7 @@ class DatabaseConnection():
         STMT = "UPDATE Scrapers SET last_run=%s WHERE search_query=%s AND engine=%s;"
         self.cs.execute(STMT, (runtime, search_query, engine))
         
-
-    def res_selectall(self) -> dict:
+    def res_selectall(self) -> list:
         res = []
         STMT = "SELECT * FROM Results;"
         self.cs.execute(STMT)
@@ -55,6 +56,13 @@ class DatabaseConnection():
 
         return res
 
+    def res_select(self, search_query: str, engine: str) -> list:
+        res = []
+        STMT = "SELECT * FROM Results WHERE search_query=%s AND engine=%s;"
+        for headline, source, url, published_date, search_query, engine in self.cs:
+            res.append({"headline": headline, "source": source, "url": url, "published_date": published_date, "search_query": search_query, "engine": engine})
+        return res
+
     def scraper_select(self, search_query: str, engine: str) -> dict:
         STMT = "SELECT * FROM Scrapers WHERE search_query=%s AND engine=%s;"
         self.cs.execute(STMT, (search_query, engine))
@@ -72,6 +80,14 @@ class DatabaseConnection():
     def result_delete(self, headline: str, source: str):
         STMT = "DELETE FROM Results WHERE headline=%s AND source=%s"
         self.cs.execute(STMT, (headline, source))
+
+    def sources_count(self, search_query: str, engine: str) -> dict:
+        res = {}
+        STMT = "SELECT source, COUNT(source) as num_posts FROM Results WHERE search_query=%s AND engine=%s GROUP BY source;"
+        self.cs.execute(STMT, (search_query, engine))
+        for source, num_posts in self.cs:
+            res[source] = num_posts
+        return res
 
     def destroy(self) -> None:
         self.cs.close()

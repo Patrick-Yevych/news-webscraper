@@ -1,6 +1,5 @@
 from werkzeug import datastructures
-import mysql.connector, json, math, datetime
-#sys.path.append('../')
+import json, math, datetime
 from flask import Flask, render_template, request
 from DatabaseConnection import DatabaseConnection
 from GoogleScraper import GoogleScraper
@@ -10,7 +9,8 @@ scraper_cache = None
 
 app = Flask(__name__)
 
-@app.route("/results")
+
+@app.route("/results", methods=['GET'])
 def get_results():
     db = DatabaseConnection("./config.json")
     data = db.res_selectall()
