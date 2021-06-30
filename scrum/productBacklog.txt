@@ -77,3 +77,33 @@ PRIORITY: 3
 ESTIMATE: 2 hours ACTUAL:
 ISSUE: Store the "running" boolean from the scraper cache into the database too, so when the web-app restarts, the toggle status of the scraper is preserved.
 ----------
+
+----------
+ID: US2.6
+NAME: Better frontend
+OWNER: 
+STATUS: NotStarted
+PRIORITY: 2
+ESTIMATE: 6 hours ACTUAL:
+ISSUE: Consider using bootstrap to create a better looking frontend.
+----------
+
+----------
+ID: US2.7
+NAME: Project Homepage
+OWNER: 
+STATUS: NotStarted
+PRIORITY: 2
+ESTIMATE: 6 hours ACTUAL:
+ISSUE: create the landing page for newspeak.app showcasing the project, features, and how to use it.
+----------
+
+----------
+ID: US2.8
+NAME: Authentication for scraper management
+OWNER: 
+STATUS: NotStarted
+PRIORITY: 3
+ESTIMATE: 6 hours ACTUAL:
+ISSUE: Create an admins table in res-database that contains the login info for administrators of the site. Seperate scrapers.html into two pages, one which can edit scrapers (for admins only) and another which can't (for normal users). Alternatively, show the regular scrapers.html for everyone, but if you are not logged in as admin, prompt for login when clicking any scraper management related button. Or, pop-up that those options are disabled for purposes of demonstration.
+----------

@@ -2,8 +2,9 @@ import pandas as pd
 from bokeh.plotting import figure
 from bokeh.transform import cumsum
 from bokeh.palettes import Category20c
-from bokeh.io import save, output_file
+from bokeh.io import save, output_file, reset_output
 from math import pi
+import os
 
 class PieChartView():
 
@@ -11,10 +12,12 @@ class PieChartView():
     figure = None
     
     def __init__(self, points: dict, out_file: str):
-        output_file(out_file)
         
         if (points == {} or points == None):
             return None
+
+        os.remove("./templates/sources.html")
+        output_file(out_file)
 
         self.df = pd.Series(points).reset_index(name='value').rename(columns={'index': 'source'})
         self.df['color'] = Category20c[len(points)]

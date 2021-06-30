@@ -39,15 +39,17 @@
     .main {
         margin: auto;
     }
-    .scraper_table {
+    .scraper_table_div {
         float: left;
+        background-color: beige;
     }
     .data_view {
         float: right;
+        background-color: bisque;
     }
 </style>
 <script>
-    var scraper_toggle_id = 0;
+    var scraper_index = 0;
 
     function new_scraper_open() {
         document.getElementById("new_scraper_form").style.display = "block";
@@ -55,10 +57,27 @@
     function new_scraper_close() {
         document.getElementById("new_scraper_form").style.display = "none";
     }
-    function set_toggle_visibility(metric, id) {
-        if (metric == "manual") {
-            document.getElementById(id).style.display = "none";
+    function get_row(search_query, engine) {
+        for (i = 0; i < document.getElementById("scraper_table").rows.length; i++) {
+            var row = document.getElementById("scraper_table").rows[i];
+            if (row.cells[0] == search_query && row.cells[1] == engine) {
+                return row;
+            }
         }
+        return null;
+    }
+    function set_toggle_visibility() {
+        for (i = 0; i < document.getElementById("scraper_table").rows.length; i++) {
+            var row = document.getElementById("scraper_table").rows[i];
+            if (row.cells[6].innerHTML == "manual") {
+                row.cells[8].querySelector("#toggle_scraper_form").style.display = "none";
+            }
+        }        
+    }
+    function send_view_req(row) {
+        document.forms["view_scraper_form"]["search_query"].value=row.cells[0].innerHTML;
+        document.forms["view_scraper_form"]["engine"].value=row.cells[1].innerHTML;
+        document.getElementById("view_scraper_form").submit();
     }
 </script>
 </head>
@@ -109,8 +128,15 @@
     </div>
     <br>
     <div class="main">
-        <div class="scraper_table">
-            <table >
+        <div class="scraper_table_div">
+
+            <form id="view_scraper_form" method="POST" action="scrapers" class="inline">
+                <input type="hidden" name="action_type" value="view_scraper">
+                <input type="hidden" name="search_query" value="">
+                <input type="hidden" name="engine" value="">
+            </form>
+
+            <table id="scraper_table">
                 <thead>
                 <tr style="background-color:burlywood;">
                     <th>search_query</th>
@@ -126,7 +152,7 @@
                 </thead>
                 <tbody>
                 {% for item in data %}
-                <tr>
+                <tr onclick="send_view_req(this)">
                     <td>{{item['search_query']}}</td>
                     <td>{{item['engine']}}</td>
                     <td>{{item['max_pages']}}</td>
@@ -136,47 +162,40 @@
                     <td>{{item['run_interval_metric']}}</td>
                     <td>{{item['last_run']}}</td>
                     <td> 
-                    <form method="POST" action="scrapers" class="inline">
-                        <input type="hidden" name="action_type" value="run_scraper">
-                        <input type="hidden" name="search_query" value="{{item['search_query']}}">
-                        <input type="hidden" name="engine" value="{{item['engine']}}">
-                        <input type="hidden" name="max_pages" value="{{item['max_pages']}}">
-                        <input type="hidden" name="page_step" value="{{item['page_step']}}">
-                        <input type="hidden" name="per_page" value="{{item['per_page']}}">
-                        [<button type="submit" name="run_btn" value="run_req" class="link-button">run</button>]
-                    </form>
 
-                    <form method="POST" id="toggle_scraper_form" action="scrapers" class="inline">
-                        <input type="hidden" name="action_type" value="toggle_scraper">
-                        <input type="hidden" name="search_query" value="{{item['search_query']}}">
-                        <input type="hidden" name="engine" value="{{item['engine']}}">
-                        [<button type="submit" name="toggle_btn" value="toggle_req" class="link-button">{{item['toggle_text']}}</button>]
-                    </form>
-                    
-                    <form method="POST" action="scrapers" class="inline">
-                        <input type="hidden" name="action_type" value="delete_scraper">
-                        <input type="hidden" name="search_query" value="{{item['search_query']}}">
-                        <input type="hidden" name="engine" value="{{item['engine']}}">
-                        [<button type="submit" name="delete_btn" value="delete_req" class="link-button">delete</button>]
-                    </form>
+                        <form method="POST" action="scrapers" class="inline">
+                            <input type="hidden" name="action_type" value="run_scraper">
+                            <input type="hidden" name="search_query" value="{{item['search_query']}}">
+                            <input type="hidden" name="engine" value="{{item['engine']}}">
+                            <input type="hidden" name="max_pages" value="{{item['max_pages']}}">
+                            <input type="hidden" name="page_step" value="{{item['page_step']}}">
+                            <input type="hidden" name="per_page" value="{{item['per_page']}}">
+                            [<button type="submit" name="run_btn" value="run_req" class="link-button">run</button>]
+                        </form>
 
-                    <form method="POST" action="scrapers" class="inline">
-                        <input type="hidden" name="action_type" value="view_scraper">
-                        <input type="hidden" name="search_query" value="{{item['search_query']}}">
-                        <input type="hidden" name="engine" value="{{item['engine']}}">
-                        [<button type="submit" name="view_btn" value="view_req" class="link-button">view</button>]
-                    </form>
-
-                    <script>
-                        document.getElementById("toggle_scraper_form").setAttribute("id", scraper_toggle_id);
-                        set_toggle_visibility("{{item['run_interval_metric']}}", scraper_toggle_id)
-                        scraper_toggle_id += 1;
-                    </script>
+                        <form method="POST" id="toggle_scraper_form" action="scrapers" class="inline">
+                            <input type="hidden" name="action_type" value="toggle_scraper">
+                            <input type="hidden" name="search_query" value="{{item['search_query']}}">
+                            <input type="hidden" name="engine" value="{{item['engine']}}">
+                            [<button type="submit" name="toggle_btn" value="toggle_req" class="link-button">{{item['toggle_text']}}</button>]
+                        </form>
+                        
+                        <form method="POST" action="scrapers" class="inline">
+                            <input type="hidden" name="action_type" value="delete_scraper">
+                            <input type="hidden" name="search_query" value="{{item['search_query']}}">
+                            <input type="hidden" name="engine" value="{{item['engine']}}">
+                            [<button type="submit" name="delete_btn" value="delete_req" class="link-button">delete</button>]
+                        </form>
 
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
+
+            <script>
+                set_toggle_visibility();
+            </script>
+
         </div>
 
         <div class="data_view">

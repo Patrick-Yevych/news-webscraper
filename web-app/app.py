@@ -43,6 +43,7 @@ def get_scrapers():
                 db.res_insert({"search_query": query, "engine": engine}, s.build_table())
 
         elif request.values.get("action_type") == "toggle_scraper" and scraper_cache.get((query, engine)) != None:
+            print("toggle request recieved")
             if (scraper_cache.get((query, engine))["running"] == True):
                 scraper_cache.get((query, engine))["running"] = False
             else:
@@ -80,6 +81,7 @@ def get_scrapers():
 
         elif request.values.get("action_type") == "view_scraper":
             pie = PieChartView(db.sources_count(query, engine), './templates/sources.html')
+            print("built pie chart for ", query, engine)
 
     data = db.scraper_selectall()
     for scraper in data:
@@ -91,11 +93,12 @@ def get_scrapers():
             scraper["toggle_text"] = "start"
 
     db.destroy()
+    get_sources_view()
     return render_template('scrapers.html', data=data)
     
 
 if __name__ == "__main__":
     scraper_cache = ScraperCache()
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", debug=True)
 
 # use bokeh for data viz
