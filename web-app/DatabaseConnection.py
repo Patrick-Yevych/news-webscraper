@@ -116,7 +116,7 @@ class DatabaseConnection():
         self.cs.execute(STMT, (headline, source))
         for headline, source, url, published_date, search_query, engine in self.cs:
             return {"headline": headline, "source": source, "url": url, 
-                    "published_date": published_date,   "search_query": search_query, "engine": engine}
+                    "published_date": published_date, "search_query": search_query, "engine": engine}
 
     """
     Postconditions:
