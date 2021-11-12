@@ -100,3 +100,13 @@ PRIORITY: 3
 ESTIMATE: 4 hours ACTUAL:
 ISSUE: bar chart for article sources (for all results and query specific)
 ----------
+
+----------
+ID: BUG1.4
+NAME: Better Input Sanitization on new scraper form.
+OWNER: 
+STATUS: NotStarted 
+PRIORITY: 2
+ESTIMATE: 1 hour ACTUAL:
+ISSUE: Create function in app.py for input sanitization of scraper data. alphabetical characters only for search_query. numerical characters only for all other inputs. Should check when creating a new scraper, and when sending any POST requests.
+----------

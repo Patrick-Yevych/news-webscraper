@@ -1,16 +1,20 @@
 from werkzeug import datastructures
-import mysql.connector, json, math, datetime
-#sys.path.append('../')
+import json, math, datetime
 from flask import Flask, render_template, request
 from DatabaseConnection import DatabaseConnection
 from GoogleScraper import GoogleScraper
 from ScraperCache import ScraperCache
+from PieChartView import PieChartView
 
 scraper_cache = None
 
 app = Flask(__name__)
 
-@app.route("/results")
+@app.route("/sources")
+def get_sources_view():
+    return render_template('sources.html')
+
+@app.route("/results", methods=['GET'])
 def get_results():
     db = DatabaseConnection("./config.json")
     data = db.res_selectall()
@@ -39,6 +43,7 @@ def get_scrapers():
                 db.res_insert({"search_query": query, "engine": engine}, s.build_table())
 
         elif request.values.get("action_type") == "toggle_scraper" and scraper_cache.get((query, engine)) != None:
+            print("toggle request recieved")
             if (scraper_cache.get((query, engine))["running"] == True):
                 scraper_cache.get((query, engine))["running"] = False
             else:
@@ -73,7 +78,11 @@ def get_scrapers():
 
                     if (run_interval_value > 0 and run_interval_value % math.floor(run_interval_value) == 0 and run_interval_metric != 'manual'):
                         scraper_cache.push((query, engine), run_interval_value, run_interval_metric)
-            
+
+        elif request.values.get("action_type") == "view_scraper":
+            pie = PieChartView(db.sources_count(query, engine), './templates/sources.html')
+            print("built pie chart for ", query, engine)
+
     data = db.scraper_selectall()
     for scraper in data:
         if (scraper["run_interval_metric"] == 'manual'):
@@ -84,11 +93,12 @@ def get_scrapers():
             scraper["toggle_text"] = "start"
 
     db.destroy()
+    get_sources_view()
     return render_template('scrapers.html', data=data)
     
 
 if __name__ == "__main__":
     scraper_cache = ScraperCache()
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", debug=True)
 
 # use bokeh for data viz
