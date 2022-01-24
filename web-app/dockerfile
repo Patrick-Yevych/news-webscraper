@@ -11,6 +11,7 @@ RUN pip install bokeh
 
 CMD ["python3", "app.py"]
 
+COPY PieChartView.py /PieChartView.py
 COPY Scraper.py /Scraper.py
 COPY GoogleScraper.py /GoogleScraper.py
 COPY config.json /config.json

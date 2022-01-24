@@ -10,20 +10,18 @@ scraper_cache = None
 
 app = Flask(__name__)
 
-@app.route("/sources")
-def get_sources_view():
-    return render_template('sources.html')
+@app.route("/styles.css", methods=['GET'])
+def get_styles():
+    return render_template("styles.css")
 
-@app.route("/results", methods=['GET'])
-def get_results():
-    db = DatabaseConnection("./config.json")
-    data = db.res_selectall()
-    db.destroy()
-    return render_template('results.html', data=data)
+@app.route("/index.js", methods=['GET'])
+def get_indexjs():
+    return render_template("index.js")
 
-@app.route("/scrapers", methods=['GET', 'POST'])
-def get_scrapers():
+@app.route("/index.html", methods=['GET', 'POST'])
+def get_indexhtml():
     db = DatabaseConnection("./config.json")
+    data = {}
 
     if request.method == 'POST':
         query = request.values.get("search_query")
@@ -83,8 +81,8 @@ def get_scrapers():
             pie = PieChartView(db.sources_count(query, engine), './templates/sources.html')
             print("built pie chart for ", query, engine)
 
-    data = db.scraper_selectall()
-    for scraper in data:
+    data['scrapers'] = db.scraper_selectall()
+    for scraper in data['scrapers']:
         if (scraper["run_interval_metric"] == 'manual'):
             scraper["toggle_text"] = ""
         elif (scraper_cache.get((scraper["search_query"], scraper["engine"]))["running"] == True):
@@ -93,8 +91,7 @@ def get_scrapers():
             scraper["toggle_text"] = "start"
 
     db.destroy()
-    get_sources_view()
-    return render_template('scrapers.html', data=data)
+    return render_template("index.html", data=data)
     
 
 if __name__ == "__main__":
