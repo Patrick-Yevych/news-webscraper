@@ -10,6 +10,7 @@ CREATE TABLE Scrapers(
     run_interval_value INTEGER NOT NULL,
     run_interval_metric VARCHAR(6) NOT NULL,
     last_run DATETIME,
+    running BOOLEAN,
     PRIMARY KEY (search_query, engine)
 );
 

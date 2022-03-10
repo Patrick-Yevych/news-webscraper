@@ -1,13 +1,11 @@
-from threading import Timer
 from DatabaseConnection import DatabaseConnection
 from GoogleScraper import GoogleScraper
-import _thread, datetime
+import _thread, datetime, math, time
 
 class ScraperCache:
     cache = None
-    timer = None
 
-    def push(self, key: tuple, interval_value: int, interval_metric: str) -> None:
+    def push(self, key: tuple, interval_value: int, interval_metric: str, running: bool) -> None:
         c = 0
         if interval_metric == "minute":
             c = 1
@@ -20,8 +18,15 @@ class ScraperCache:
         elif interval_metric == "year":
             c = 12*30*24*60
 
-        self.cache[key] = {"running": True, "countdown": c*interval_value, "interval": c*interval_value}
-        print(self.cache)
+        if (running == None):
+            running = False
+
+        if (interval_value > 0 and interval_value % math.floor(interval_value) == 0 and interval_metric != 'manual'):
+            if (key not in self.cache):
+                self.cache[key] = {"running": running, "countdown": c*interval_value, "interval": c*interval_value}
+            else:
+                self.cache[key] = {"running": running, "countdown": self.cache[key]['countdown'], "interval": c*interval_value}
+
 
     def pop(self, key: tuple) -> dict:
         try:
@@ -30,17 +35,13 @@ class ScraperCache:
         except (KeyError):
             return None
 
+
     def get(self, key: tuple) -> dict:
         try:
             return self.cache[key]
         except (KeyError):
             return None
 
-    def pause(self, key: tuple) -> None:
-        self.cache[key]['running'] = False
-
-    def unpause(self, key: tuple) -> None:
-        self.cache[key]['running'] = True
 
     def scrape(self, key: tuple) -> None:
         db = DatabaseConnection("./config.json")
@@ -55,25 +56,49 @@ class ScraperCache:
 
         db.destroy()
 
+
     def load(self) -> None:
         db = DatabaseConnection("./config.json")
-        for scraper in db.scraper_selectall():
-            if (scraper["run_interval_metric"] != 'manual'):
-                self.push((scraper["search_query"], scraper["engine"]), scraper["run_interval_value"], scraper["run_interval_metric"])
+        for scraper in db.scraper_select_autorun():
+            self.push((scraper["search_query"], scraper["engine"]), scraper["run_interval_value"], scraper["run_interval_metric"], scraper['running'])
         db.destroy()
 
-    def tick(self) -> dict:
-        print(self.cache)
+
+    def prune(self) -> None:
+        db = DatabaseConnection("./config.json")
+        try:
+            for k in self.cache:
+                if (db.scraper_select(k[0], k[1]) == None):
+                    self.pop(k)
+        except (RuntimeError):
+            print("RuntimeError, re-attempting prune")
+            self.prune()
+        db.destroy()
+
+
+    def dispatch(self) -> None:
         for k in self.cache:
             if (self.cache[k]['running'] == True):
                 self.cache[k]['countdown'] -= 1
                 if (self.cache[k]['countdown'] <= 0):
                     self.cache[k]['countdown'] = self.cache[k]['interval']
-                    print("Starting ", k)
                     _thread.start_new_thread(self.scrape, (k,))
+
+
+    def tick(self) -> None:
+        self.load()
+        self.prune()
+        self.dispatch()
+        print(self.cache)
+
 
     def __init__(self):
         self.cache = {}
         self.load()
-        self.timer = Timer(60, self.tick)
-        self.timer.start()
+
+
+if __name__ == '__main__':
+    scraper_cache = ScraperCache()
+    while True:
+        scraper_cache.tick()
+        time.sleep(60)

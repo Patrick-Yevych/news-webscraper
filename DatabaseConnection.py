@@ -71,7 +71,13 @@ class DatabaseConnection():
     def scraper_update_runtime(self, search_query: str, engine: str, runtime) -> None:
         STMT = "UPDATE Scrapers SET last_run=%s WHERE search_query=%s AND engine=%s;"
         self.cs.execute(STMT, (runtime, search_query, engine))
-        
+
+
+    def scraper_set_running(self, search_query: str, engine: str, running: bool) -> None:
+        STMT = "UPDATE Scrapers SET running=%s WHERE search_query=%s AND engine=%s;"
+        self.cs.execute(STMT, (running, search_query, engine))
+
+
     """
     Postconditions:
 
@@ -96,12 +102,12 @@ class DatabaseConnection():
         res = []
         STMT = "SELECT * FROM Scrapers;"
         self.cs.execute(STMT)
-        for search_query, engine, max_pages, page_step, per_page, run_interval_value, run_interval_metric, last_run in self.cs:
+        for search_query, engine, max_pages, page_step, per_page, run_interval_value, run_interval_metric, last_run, running in self.cs:
 
             res.append({"search_query": search_query, "engine": engine, 
                         "max_pages": max_pages, "page_step": page_step, 
                         "per_page": per_page, "run_interval_value": run_interval_value,
-                        "run_interval_metric": run_interval_metric, "last_run": last_run})
+                        "run_interval_metric": run_interval_metric, "last_run": last_run, "running": running})
 
         return res
 
@@ -141,12 +147,25 @@ class DatabaseConnection():
     def scraper_select(self, search_query: str, engine: str) -> dict:
         STMT = "SELECT * FROM Scrapers WHERE search_query=%s AND engine=%s;"
         self.cs.execute(STMT, (search_query, engine))
-        for search_query, engine, max_pages, page_step, per_page, run_interval_value, run_interval_metric, last_run in self.cs:
+        for search_query, engine, max_pages, page_step, per_page, run_interval_value, run_interval_metric, last_run, running in self.cs:
 
             return {"search_query": search_query, "engine": engine, 
                         "max_pages": max_pages, "page_step": page_step, 
                         "per_page": per_page, "run_interval_value": run_interval_value,
-                        "run_interval_metric": run_interval_metric, "last_run": last_run}
+                        "run_interval_metric": run_interval_metric, "last_run": last_run, "running": running}
+
+
+    def scraper_select_autorun(self) -> list:
+        res = []
+        STMT = "SELECT * FROM Scrapers WHERE run_interval_metric <> 'manual';"
+        self.cs.execute(STMT)
+        for search_query, engine, max_pages, page_step, per_page, run_interval_value, run_interval_metric, last_run, running in self.cs:
+            res.append({"search_query": search_query, "engine": engine, 
+                        "max_pages": max_pages, "page_step": page_step, 
+                        "per_page": per_page, "run_interval_value": run_interval_value,
+                        "run_interval_metric": run_interval_metric, "last_run": last_run, "running": running})
+        return res
+
 
     """
     Postconditions:

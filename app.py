@@ -2,9 +2,6 @@ import json, math, datetime
 from flask import Flask, render_template, request, jsonify
 from DatabaseConnection import DatabaseConnection
 from GoogleScraper import GoogleScraper
-from ScraperCache import ScraperCache
-
-scraper_cache = None
 
 app = Flask(__name__)
 
@@ -53,17 +50,17 @@ def get_indexhtml():
                 s = GoogleScraper(query, int(max_pages), int(page_step), int(per_page))
                 db.res_insert({"search_query": query, "engine": engine}, s.build_table())
 
-        elif request.values.get("action_type") == "toggle_scraper" and scraper_cache.get((query, engine)) != None:
+        elif request.values.get("action_type") == "toggle_scraper":
             print("toggle request recieved")
-            if (scraper_cache.get((query, engine))["running"] == True):
-                scraper_cache.get((query, engine))["running"] = False
+            if (db.scraper_select(query, engine)["running"] == True):
+                db.scraper_set_running(query, engine, False)
             else:
-                scraper_cache.get((query, engine))["running"] = True
+                db.scraper_set_running(query, engine, True)
+
 
         elif request.values.get("action_type") == "delete_scraper":
             print("Deleting Scraper ("+query+", "+engine+")")
             db.scraper_delete(query, engine)
-            scraper_cache.pop((query, engine))
 
         elif request.values.get("action_type") == "create_scraper":
             max_pages = float(request.values.get("max_pages"))
@@ -76,8 +73,6 @@ def get_indexhtml():
             else:
                 run_interval_value = -1
 
-            print(max_pages, page_step, per_page, run_interval_value, run_interval_metric)
-
             if (max_pages > 0 and page_step > 0 and per_page > 0 
                 and max_pages % math.floor(max_pages) == 0 and page_step % math.floor(page_step) == 0 and per_page % math.floor(per_page) == 0
                 and ((run_interval_value > 0 and run_interval_value % math.floor(run_interval_value) == 0) or (run_interval_value == -1 and run_interval_metric == 'manual'))):
@@ -86,9 +81,11 @@ def get_indexhtml():
                                        "max_pages": max_pages, "page_step": page_step, 
                                        "per_page": per_page, "run_interval_value": run_interval_value,
                                        "run_interval_metric": run_interval_metric})
-
-                    if (run_interval_value > 0 and run_interval_value % math.floor(run_interval_value) == 0 and run_interval_metric != 'manual'):
-                        scraper_cache.push((query, engine), run_interval_value, run_interval_metric)
+                    
+                    if (run_interval_metric == 'manual'):
+                        db.scraper_set_running(query, engine, False)
+                    else:
+                        db.scraper_set_running(query, engine, True)
 
         elif request.values.get("action_type") == "view_scraper":
             pie = PieChartView(db.sources_count(query, engine), './templates/sources.html')
@@ -98,7 +95,7 @@ def get_indexhtml():
     for scraper in data['scrapers']:
         if (scraper["run_interval_metric"] == 'manual'):
             scraper["toggle_text"] = ""
-        elif (scraper_cache.get((scraper["search_query"], scraper["engine"]))["running"] == True):
+        elif (db.scraper_select(scraper["search_query"], scraper["engine"])["running"] == True):
             scraper["toggle_text"] = "pause"
         else:
             scraper["toggle_text"] = "start"
@@ -108,5 +105,4 @@ def get_indexhtml():
     
 
 if __name__ == "__main__":
-    scraper_cache = ScraperCache()
     app.run(host="0.0.0.0", debug=True)
