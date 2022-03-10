@@ -13,6 +13,7 @@ tr:nth-child(even) {
 }
 tr:hover {
     background-color:#dcdcdc;
+    cursor: pointer;
 }
 
 #header {
