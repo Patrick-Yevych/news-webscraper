@@ -18,7 +18,7 @@ def get_indexjs():
     return render_template("index.js")
 
 @app.route("/results.html", methods=['GET'])
-def get_results():
+def get_resultshtml():
     db = DatabaseConnection("./config.json")
     data = db.res_selectall()
     db.destroy()
@@ -27,7 +27,9 @@ def get_results():
 @app.route("/results/<engine>/<query>", methods=['GET'])
 def get_result(engine, query):
     db = DatabaseConnection("./config.json")
-    return jsonify(db.res_foreign_select(query, engine))
+    data = db.res_foreign_select(query, engine)
+    db.destroy()
+    return jsonify(data)
 
 @app.route("/index.html", methods=['GET', 'POST'])
 def get_indexhtml():
