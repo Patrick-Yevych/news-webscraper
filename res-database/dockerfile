@@ -1,4 +1,0 @@
-FROM mysql/mysql-server:8.0.25-1.2.3-server
-EXPOSE 3306
-COPY setup.sh /setup.sh
-COPY schema.ddl /schema.ddl
