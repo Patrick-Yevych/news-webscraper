@@ -1,5 +1,5 @@
 import json, math, datetime
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from DatabaseConnection import DatabaseConnection
 from GoogleScraper import GoogleScraper
 from ScraperCache import ScraperCache
@@ -23,6 +23,11 @@ def get_results():
     data = db.res_selectall()
     db.destroy()
     return render_template('results.html', data=data)
+
+@app.route("/results/<engine>/<query>", methods=['GET'])
+def get_result(engine, query):
+    db = DatabaseConnection("./config.json")
+    return jsonify(db.res_foreign_select(query, engine))
 
 @app.route("/index.html", methods=['GET', 'POST'])
 def get_indexhtml():
