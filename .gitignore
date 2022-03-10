@@ -1,4 +1,3 @@
 .vscode/
 __pycache__
-./web-app/__pycache__
-./res-database/data/*
+./mysql-database/*
