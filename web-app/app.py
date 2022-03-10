@@ -24,12 +24,13 @@ def get_resultshtml():
     db.destroy()
     return render_template('results.html', data=data)
 
-@app.route("/results/<engine>/<query>", methods=['GET'])
+@app.route("/results/<engine>/<query>.html", methods=['GET'])
 def get_result(engine, query):
     db = DatabaseConnection("./config.json")
     data = db.res_foreign_select(query, engine)
     db.destroy()
-    return jsonify(data)
+    return render_template('results.html', data=data)
+    
 
 @app.route("/index.html", methods=['GET', 'POST'])
 def get_indexhtml():

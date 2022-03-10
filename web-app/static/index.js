@@ -25,7 +25,7 @@ for (i = 0; i < scraperTable.rows.length; i++) {
         return function() {
             var query = row.getElementsByTagName("td")[0].innerHTML;
             var engine = row.getElementsByTagName("td")[1].innerHTML;
-            window.location.href = "./results/"+engine+"/"+query;
+            window.location.href = "./results/"+engine+"/"+query+".html";
         }
     }
 
