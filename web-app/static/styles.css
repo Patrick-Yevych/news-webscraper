@@ -63,7 +63,7 @@ tr:hover {
 }
 #scraper-table {
     flex: 1;
-    max-width: 50%;
+    max-width: 100%;
 }
 .link-button {
     background: white;
