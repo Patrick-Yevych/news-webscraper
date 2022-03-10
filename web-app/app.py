@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, jsonify
 from DatabaseConnection import DatabaseConnection
 from GoogleScraper import GoogleScraper
 from ScraperCache import ScraperCache
-from PieChartView import PieChartView
 
 scraper_cache = None
 
