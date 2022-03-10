@@ -14,8 +14,14 @@ tr:nth-child(even) {
 tr:hover {
     background-color:#dcdcdc;
 }
+
 #header {
     flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding: 16px;
+    background-color: rgb(240, 240, 240);
 }
 #main {
     flex: 1;
@@ -67,6 +73,7 @@ tr:hover {
     max-width: 100px;
     padding: 8px 16px;
     border-radius: 8px;
+    cursor: pointer;
 }
 .create-button {
     background: royalblue;

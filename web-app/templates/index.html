@@ -7,12 +7,12 @@
         <script defer src="/static/index.js"></script>
     </head>
     <body>
+        <h1 style="text-align: center;">Newspeak</h1>
+
         <div id="header">
-            <h1>Newspeak</h1>
+            <button class="link-button" id="new-scraper-btn">new</button>
+            <button onclick="location.href = './results.html'" class="link-button">results</a>
         </div>
-
-        <button class="link-button" id="new-scraper-btn">new</button>
-
         <div id="new-scraper-form">
             <form method="POST">
                 <input type="hidden" name="action_type" value="create_scraper">
