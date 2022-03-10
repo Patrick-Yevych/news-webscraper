@@ -4,14 +4,14 @@
         <title>Newspeak</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="/static/styles.css">
-        <script src="/static/index.js"></script>
+        <script defer src="/static/index.js"></script>
     </head>
     <body>
         <div id="header">
             <h1>Newspeak</h1>
         </div>
 
-        <button class="link-button" onclick="set_new_visibility()">new</button>
+        <button class="link-button" id="new-scraper-btn">new</button>
 
         <div id="new-scraper-form">
             <form method="POST">
@@ -53,8 +53,8 @@
                     </select>
                 </div>
                 <div id="popup-btns">
-                    <button type="submit" class="link-button create-button">create</button>
-                    <button type="button" class="link-button" onclick="set_new_visibility()">close</button>
+                    <button type="submit" class="link-button create-button" id="create-scraper-btn">create</button>
+                    <button type="button" class="link-button" id="close-scraper-btn">close</button>
                 </div>
             </form>
         </div>
@@ -113,7 +113,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <script>set_pause_visibility();</script>
         </div>
     </body>
 </html>

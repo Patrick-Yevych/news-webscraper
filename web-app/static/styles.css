@@ -23,19 +23,40 @@ tr:hover {
 }
 #new-scraper-form {
     display: none;
-    background-color: bisque;
+    flex-direction: column;
+    background-color: white;
     box-shadow: 2px 4px 16px rgba(0,0,0,.2);
+    border: solid 1px;
+    border-radius: 10px;
     width:100%;
-    display: flex;
     gap: 24px;
     padding: 8px;
+
+    z-index: 1;
+    position: fixed;
+    left: 37.5%;
+    top: 30%;
+    width: 25%;
+    height: 25%;
+    overflow: auto;
 }
+
+#popup-btns {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 24px;
+    gap: 8px;
+}
+
 .scraper-field {
     flex: 1;
+    margin: 6px;
 }
 #scraper-table {
     flex: 1;
-
     max-width: 50%;
 }
 .link-button {

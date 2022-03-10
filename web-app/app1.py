@@ -1,4 +1,3 @@
-from werkzeug import datastructures
 import json, math, datetime
 from flask import Flask, render_template, request
 from DatabaseConnection import DatabaseConnection
@@ -17,6 +16,13 @@ def get_styles():
 @app.route("/index.js", methods=['GET'])
 def get_indexjs():
     return render_template("index.js")
+
+@app.route("/results.html", methods=['GET'])
+def get_results():
+    db = DatabaseConnection("./config.json")
+    data = db.res_selectall()
+    db.destroy()
+    return render_template('results.html', data=data)
 
 @app.route("/index.html", methods=['GET', 'POST'])
 def get_indexhtml():
