@@ -99,6 +99,7 @@ class ScraperCache:
 
 if __name__ == '__main__':
     scraper_cache = ScraperCache()
+    print("Initialized Scraper Cache.")
     while True:
         scraper_cache.tick()
         time.sleep(60)

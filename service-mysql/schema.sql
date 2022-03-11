@@ -1,3 +1,4 @@
+USE res_database;
 DROP TABLE IF EXISTS Results;
 DROP TABLE IF EXISTS Scrapers;
 

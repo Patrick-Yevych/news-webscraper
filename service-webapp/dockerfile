@@ -1,0 +1,22 @@
+FROM ubuntu:latest
+
+EXPOSE 8000
+
+RUN apt-get update -y
+RUN apt-get upgrade -y
+RUN apt-get install python3 -y
+RUN apt-get install pip -y
+RUN apt-get install gunicorn -y
+RUN pip install flask
+RUN pip install pandas
+RUN pip install beautifulsoup4
+RUN pip install mysql-connector-python
+RUN pip install requests
+
+CMD ["gunicorn", "--workers=8", "--bind", "0.0.0.0:8000", "app:app"]
+
+COPY config.json /config.json
+COPY service-webapp/templates /templates
+COPY service-webapp/static /static
+COPY src/* /
+COPY service-webapp/app.py /app.py

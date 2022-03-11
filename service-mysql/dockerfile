@@ -1,0 +1,6 @@
+FROM mysql:latest
+
+EXPOSE 3306
+
+COPY service-mysql/schema.sql /docker-entrypoint-initdb.d
+COPY service-mysql/init.sql /docker-entrypoint-initdb.d
