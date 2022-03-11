@@ -1,4 +1,3 @@
 .vscode/
 __pycache__
-./mysql-database/*
-./mysql-database/data
+./service-mysql/data
